@@ -25,7 +25,8 @@ fn main() {
     let mut memory = Memory::new(rom);
     let mut cpu = Cpu::new();
 
-    for _ in 0 .. 100 {
+    for i in 0 .. 200 {
+        println!("Step: {}", i);
         cpu.step(&mut memory);
         // cpu.print_registers();
     }
