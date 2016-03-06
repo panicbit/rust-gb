@@ -22,6 +22,10 @@ impl Memory {
         if *addr >= 0xFF80 {
             self.stack[(*addr - 0xFF80) as usize]
         } else
+        // Empty
+        if addr.in_range(0xFF4C, 0xFF80) {
+            0
+        } else
         // I/O ports
         if addr.in_range(0xFF00, 0xFF4C) {
             println!("STUB: I/O port access: 0x{:02X}", *addr);
@@ -53,6 +57,9 @@ impl Memory {
         // 128 internal RAM (stack)
         if *addr >= 0xFF80 {
             self.stack[(*addr - 0xFF80) as usize] = value;
+        } else
+        // Empty
+        if addr.in_range(0xFF4C, 0xFF80) {
         } else
         // I/O ports
         if addr.in_range(0xFF00, 0xFF4C) {
