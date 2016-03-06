@@ -129,6 +129,7 @@ instructions! {
     };
     0xC4, 3, 12, CALL_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.call(mem, addr) };
     0xCD, 3, 12, CALL_nn(addr: u16) => cpu.call(mem, addr);
+    0xE9, 1,  4, JP_HL => unborrow!(cpu.set_pc(cpu.hl()));
     0x18, 2,  8, JR_n(offset: u8) => unborrow!(cpu.set_pc(cpu.pc() + offset as u16));
     0x20, 2,  8, JR_NZ_n(offset: u8) => if !cpu.flag_z() { unborrow!(cpu.set_pc(cpu.pc() + offset as u16)) };
     0x28, 2,  8, JR_Z(offset: u8) => if cpu.flag_z() {
