@@ -162,6 +162,16 @@ impl Cpu {
         self.reset_flag_c();
     }
 
+    pub fn and(&mut self, value: u8) {
+        self.a &= value;
+        if self.a == 0 {
+            self.set_flag_z();
+        }
+        self.reset_flag_n();
+        self.set_flag_h();
+        self.reset_flag_c();
+    }
+
     pub fn disable_interrupts(&mut self) {
         self.interrupts_enabled = false;
     }
