@@ -119,13 +119,15 @@ impl Cpu {
     }
 
     pub fn pop_u8(&mut self, mem: &mut Memory) -> u8 {
+        let result = mem.read_u8(Addr(self.sp()));
         self.sp += Wrapping(1);
-        mem.read_u8(Addr(self.sp() - 1))
+        result
     }
 
     pub fn pop_u16(&mut self, mem: &mut Memory) -> u16 {
+        let result = mem.read_u16(Addr(self.sp()));
         self.sp += Wrapping(2);
-        mem.read_u16(Addr(self.sp() - 2))
+        result
     }
 
     pub fn step(&mut self, mem: &mut Memory) {
