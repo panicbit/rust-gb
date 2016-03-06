@@ -122,6 +122,7 @@ instructions! {
     0xF1, 1, 12, POP_AF => unborrow!(cpu.set_af(cpu.pop_u16(mem)));
     0xE1, 1, 12, POP_HL => unborrow!(cpu.set_hl(cpu.pop_u16(mem)));
     0x04, 1, 4, INC_B => cpu.incr_b();
+    0x24, 1, 4, INC_H => cpu.incr_h();
     0x2C, 1, 4, INC_L => cpu.incr_l();
     0x03, 1, 8, INC_BC => cpu.incr_bc();
     0x23, 1, 8, INC_HL => cpu.incr_hl();
