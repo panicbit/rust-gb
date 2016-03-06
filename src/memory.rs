@@ -31,6 +31,11 @@ impl Memory {
             println!("STUB: I/O port access: 0x{:02X}", *addr);
             0
         } else
+        // OAM
+        if addr.in_range(0xFE00, 0xFF00) {
+            println!("STUB: OAM access: 0x{:02X}", *addr);
+            0
+        } else
         // Echo of 8K internal RAM
         if addr.in_range(0xE000, 0xFE00) {
             self.ram[(*addr - 0xE000) as usize]
@@ -64,6 +69,10 @@ impl Memory {
         // I/O ports
         if addr.in_range(0xFF00, 0xFF4C) {
             println!("STUB: I/O port write: 0x{:02X}", *addr);
+        } else
+        // OAM
+        if addr.in_range(0xFE00, 0xFF00) {
+            println!("STUB: OAM write: 0x{:02X}", *addr);
         } else
         // Echo of 8K internal RAM
         if addr.in_range(0xE000, 0xFE00) {
