@@ -103,6 +103,7 @@ instructions! {
     0x01, 3, 8, LD_BC_nn(value: u16) => cpu.set_bc(value);
     0x21, 3, 12, LD_HL_nn(value: u16) => cpu.set_hl(value);
     0x31, 3, 12, LD_SP_nn(value: u16) => cpu.set_sp(value);
+    0x77, 1, 8, LD_MHL_A => mem.write_u16(Addr(cpu.hl()), cpu.a() as u16);
     0xEA, 3, 16, LD_Mnn_A(p: u16) => mem.write_u16(Addr(p), cpu.a() as u16);
     0xE0, 2, 12, LD_Mn_A(p: u8) => mem.write_u8(Addr(0xFF00) + p as u16, cpu.a());
     0x2A, 1, 8, LDI_A_MHL => unborrow!(cpu.set_a(mem.read_u8(Addr(cpu.hl()))));
