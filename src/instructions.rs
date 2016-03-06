@@ -119,6 +119,10 @@ instructions! {
         cpu.set_a(value);
         cpu.incr_hl();
     };
+    0x22, 1, 8, LDI_MHL_A => {
+        mem.write_u8(Addr(cpu.hl()), cpu.a());
+        cpu.incr_hl();
+    };
     0xC4, 3, 12, CALL_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.call(mem, addr) };
     0xCD, 3, 12, CALL_nn(addr: u16) => cpu.call(mem, addr);
     0x18, 2, 8, JR_n(offset: u8) => unborrow!(cpu.set_pc(cpu.pc() + offset as u16));
