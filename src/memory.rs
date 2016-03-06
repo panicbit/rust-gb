@@ -63,6 +63,10 @@ impl Memory {
         if *addr >= 0xFF80 {
             self.stack[(*addr - 0xFF80) as usize] = value;
         } else
+        // Serial port
+        if *addr == 0xFF01 {
+            panic!("STUB: Write to serial port: {}", value as char);
+        } else
         // Empty
         if addr.in_range(0xFF4C, 0xFF80) {
         } else
