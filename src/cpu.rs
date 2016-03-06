@@ -171,6 +171,10 @@ impl Cpu {
 
     }
 
+    pub fn flag_z(&mut self)  -> bool {
+        self.f >= 0x10000000
+    }
+
     pub fn set_flag_z(&mut self) {
         self.f |= 0x10000000;
     }

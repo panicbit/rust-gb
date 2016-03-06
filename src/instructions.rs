@@ -128,5 +128,9 @@ instructions! {
     0xB1, 1, 4, OR_B => {
         let value = cpu.a() | cpu.b();
         cpu.set_a(value);
-    }
+    };
+    0x28, 2, 8, JR_Z(offset: u8) => if cpu.flag_z() {
+        let pc = cpu.pc;
+        cpu.set_pc(pc + offset as u16)
+    };
 }
