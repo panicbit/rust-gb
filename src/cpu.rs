@@ -172,6 +172,11 @@ impl Cpu {
         self.reset_flag_c();
     }
 
+    pub fn call(&mut self, mem: &mut Memory, addr: u16) {
+        unborrow!(self.push_u16(mem, self.pc()));
+        self.set_pc(addr);
+    }
+
     pub fn disable_interrupts(&mut self) {
         self.interrupts_enabled = false;
     }

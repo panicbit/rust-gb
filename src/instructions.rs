@@ -105,10 +105,8 @@ instructions! {
     0xEA, 3, 16, LD_Mnn_A(p: u16) => mem.write_u16(Addr(p), cpu.a() as u16);
     0xE0, 2, 12, LD_Mn_A(p: u8) => mem.write_u8(Addr(0xFF00) + p as u16, cpu.a());
     0x2A, 1, 8, LDI_A_MHL => unborrow!(cpu.set_a(mem.read_u8(Addr(cpu.hl()))));
-    0xCD, 3, 12, CALL_nn(addr: u16) => {
-        unborrow!(cpu.push_u16(mem, cpu.pc()));
-        cpu.set_pc(addr);
-    };
+    0xC4, 3, 12, CALL_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.call(mem, addr) };
+    0xCD, 3, 12, CALL_nn(addr: u16) => cpu.call(mem, addr);
     0x18, 2, 8, JR_n(offset: u8) => unborrow!(cpu.set_pc(cpu.pc() + offset as u16));
     0x28, 2, 8, JR_Z(offset: u8) => if cpu.flag_z() {
         unborrow!(cpu.set_pc(cpu.pc() + offset as u16))
