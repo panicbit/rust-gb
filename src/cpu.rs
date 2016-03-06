@@ -149,6 +149,12 @@ impl Cpu {
         unborrow!(self.incr_affect_flags(self.bc()));
     }
 
+    pub fn incr_de(&mut self) {
+        let value = self.de();
+        self.set_de(value);
+        unborrow!(self.incr_affect_flags(self.de()));
+    }
+
     pub fn incr_hl(&mut self) {
         let value = self.hl();
         self.set_hl(value);

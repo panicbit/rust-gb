@@ -128,6 +128,7 @@ instructions! {
     0x24, 1, 4, INC_H => cpu.incr_h();
     0x2C, 1, 4, INC_L => cpu.incr_l();
     0x03, 1, 8, INC_BC => cpu.incr_bc();
+    0x13, 1, 8, INC_DE => cpu.incr_de();
     0x23, 1, 8, INC_HL => cpu.incr_hl();
     0x05, 1, 4, DEC_B => cpu.decr_b();
     0xB1, 1, 4, OR_B => unborrow!(cpu.or(cpu.a()));
