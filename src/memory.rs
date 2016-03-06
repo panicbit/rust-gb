@@ -31,6 +31,11 @@ impl Memory {
         if addr.in_range(0xC000, 0xE000) {
             self.ram[(*addr - 0xC000) as usize]
         } else
+        // Video RAM
+        if addr.in_range(0x8000, 0xA000) {
+            println!("STUB: Video RAM read: 0x{:02X}", *addr);
+            0
+        } else
         // ROM bank #0
         if addr.in_range(0x0000, 0x4000) {
             debug_assert!(self.rom.data.len() >= 0x4000);
@@ -52,6 +57,10 @@ impl Memory {
         // 8K internal RAM
         if addr.in_range(0xC000, 0xE000) {
             self.ram[(*addr - 0xC000) as usize] = value;
+        } else
+        // Video RAM
+        if addr.in_range(0x8000, 0xA000) {
+            println!("STUB: Video RAM write: 0x{:02X}", *addr);
         } else {
             panic!("write addr stub: 0x{:02X}", *addr);
         }
