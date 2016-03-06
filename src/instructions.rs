@@ -101,7 +101,8 @@ instructions! {
     0xFA, 3, 16, LD_A_Mnn(p: u16) => cpu.set_a(mem.read_u8(Addr(p)));
     0x06, 2, 8, LD_B_n(value: u8) => cpu.set_b(value);
     0x0E, 2, 8, LD_C_n(value: u8) => cpu.set_c(value);
-    0x01, 3, 8, LD_BC_nn(value: u16) => cpu.set_bc(value);
+    0x01, 3, 12, LD_BC_nn(value: u16) => cpu.set_bc(value);
+    0x11, 3, 12, LD_DE_nn(value: u16) => cpu.set_de(value);
     0x21, 3, 12, LD_HL_nn(value: u16) => cpu.set_hl(value);
     0x31, 3, 12, LD_SP_nn(value: u16) => cpu.set_sp(value);
     0x77, 1, 8, LD_MHL_A => mem.write_u16(Addr(cpu.hl()), cpu.a() as u16);
