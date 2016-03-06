@@ -121,6 +121,7 @@ instructions! {
     0xF5, 1, 16, PUSH_AF => { let value = cpu.af(); cpu.push_u16(mem, value) };
     0xC5, 1, 16, PUSH_BC => { let value = cpu.bc(); cpu.push_u16(mem, value) };
     0xE5, 1, 16, PUSH_HL => { let value = cpu.hl(); cpu.push_u16(mem, value) };
+    0xC1, 1, 12, POP_BC => { let value = cpu.pop_u16(mem); cpu.set_bc(value) };
     0xF1, 1, 12, POP_AF => { let value = cpu.pop_u16(mem); cpu.set_af(value) };
     0xE1, 1, 12, POP_HL => { let value = cpu.pop_u16(mem); cpu.set_hl(value) };
     0x04, 1, 4, INC_B => cpu.incr_b();
