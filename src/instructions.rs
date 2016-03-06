@@ -5,6 +5,11 @@ use memory::*;
 
 type LE = LittleEndian;
 
+// https://danielkeep.github.io/tlborm/book/pat-repetition-replacement.html
+macro_rules! replace_expr {
+    ($_t:tt $sub:expr) => {$sub};
+}
+
 macro_rules! instructions {
     (|$cpu:ident, $mem:ident, $addr:ident|
         $(
@@ -19,7 +24,7 @@ macro_rules! instructions {
         #[derive(Copy, Clone, Debug, Eq, PartialEq)]
         pub enum Instruction {
             $(
-                $name$({ $( $p_name : $p_ty ),+ })*
+                $name$(( $( $p_ty ),+ ))*
             ),*
         }
 
@@ -32,7 +37,7 @@ macro_rules! instructions {
 
                 match op {
                     $(
-                        $op => $name$({ $( $p_name : Param::get($mem, &mut $addr) ),+ })*
+                        $op => $name$(( $( replace_expr!($p_name Param::get($mem, &mut $addr)) ),+ ))*
                     ),*,
                     op => panic!("opcode 0x{:02X}", op)
                 }
@@ -42,7 +47,7 @@ macro_rules! instructions {
                 use self::Instruction::*;
                 match *self {
                     $(
-                        $name$({ $( $p_name ),+ })* => $len
+                        $name$(( $( $p_name ),+ ))* => $len
                     ),*,
                 }
             }
@@ -51,7 +56,7 @@ macro_rules! instructions {
                 use self::Instruction::*;
                 match *self {
                     $(
-                        $name$({ $( $p_name ),+ })* => $cycles
+                        $name$(( $( $p_name ),+ ))* => $cycles
                     ),*,
                 }
             }
@@ -61,7 +66,7 @@ macro_rules! instructions {
                 println!("OP: {:?}", self);
                 match *self {
                     $(
-                        $name$({ $( $p_name ),+ })* => {$exec;}
+                        $name$(( $( $p_name ),+ ))* => {$exec;}
                     ),*
                 }
             }
