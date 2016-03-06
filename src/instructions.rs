@@ -98,6 +98,7 @@ instructions! {
     0x7C, 1, 4, LD_A_H => { let value = cpu.h(); cpu.set_a(value) };
     0x7D, 1, 4, LD_A_L => { let value = cpu.l(); cpu.set_a(value) };
     0x3E, 2, 8, LD_A_n(value: u8) => cpu.set_a(value);
+    0xFA, 3, 16, LD_A_Mnn(p: u16) => cpu.set_a(mem.read_u8(Addr(p)));
     0x01, 3, 8, LD_BC_nn(value: u16) => cpu.set_bc(value);
     0x21, 3, 12, LD_HL_nn(value: u16) => cpu.set_hl(value);
     0x31, 3, 12, LD_SP_nn(value: u16) => cpu.set_sp(value);
