@@ -194,6 +194,14 @@ impl Cpu {
         self.set_flag_c(false);
     }
 
+    pub fn xor(&mut self, value: u8) {
+        self.a ^= value;
+        unborrow!(self.set_flag_z(self.a == 0));
+        self.set_flag_n(false);
+        self.set_flag_h(false);
+        self.set_flag_c(false);
+    }
+
     pub fn call(&mut self, mem: &mut Memory, addr: u16) {
         unborrow!(self.push_u16(mem, self.pc()));
         self.set_pc(addr);
