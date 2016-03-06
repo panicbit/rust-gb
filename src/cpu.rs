@@ -126,17 +126,40 @@ impl Cpu {
 
     pub fn incr_b(&mut self) {
         self.b += 1;
+        unborrow!(self.incr_affect_flags(self.b() as u16));
     }
 
 
     pub fn incr_bc(&mut self) {
         let value = self.bc();
         self.set_bc(value);
+        unborrow!(self.incr_affect_flags(self.bc()));
     }
 
     pub fn incr_hl(&mut self) {
         let value = self.hl();
         self.set_hl(value);
+        unborrow!(self.incr_affect_flags(self.hl()));
+    }
+
+    fn incr_affect_flags(&mut self, value: u16) {
+        if value == 0 {
+            self.set_flag_z();
+        }
+        self.reset_flag_n();
+        if value & 0b1111 == 0 {
+            self.set_flag_h();
+        }
+    }
+
+    pub fn or(&mut self, value: u8) {
+        self.a |= value;
+        if self.a == 0 {
+            self.set_flag_z();
+        }
+        self.reset_flag_n();
+        self.reset_flag_h();
+        self.reset_flag_c();
     }
 
     pub fn disable_interrupts(&mut self) {
@@ -172,18 +195,62 @@ impl Cpu {
     }
 
     pub fn flag_z(&mut self)  -> bool {
+        //          76543210
         self.f >= 0x10000000
     }
 
     pub fn set_flag_z(&mut self) {
+        //          76543210
         self.f |= 0x10000000;
     }
 
     pub fn reset_flag_z(&mut self) {
+        //          76543210
         self.f &= 0x01111111;
     }
 
-    pub fn toggle_flag_z(&mut self) {
-        self.f ^= 0x10000000;
+    pub fn flag_n(&mut self)  -> bool {
+        //          76543210
+        self.f >= 0x01000000
+    }
+
+    pub fn set_flag_n(&mut self) {
+        //          76543210
+        self.f |= 0x01000000;
+    }
+
+    pub fn reset_flag_n(&mut self) {
+        //          76543210
+        self.f &= 0x10111111;
+    }
+
+    pub fn flag_h(&mut self)  -> bool {
+        //          76543210
+        self.f >= 0x00100000
+    }
+
+    pub fn set_flag_h(&mut self) {
+        //          76543210
+        self.f |= 0x00100000;
+    }
+
+    pub fn reset_flag_h(&mut self) {
+        //          76543210
+        self.f &= 0x11011111;
+    }
+
+    pub fn flag_c(&mut self)  -> bool {
+        //          76543210
+        self.f >= 0x00010000
+    }
+
+    pub fn set_flag_c(&mut self) {
+        //          76543210
+        self.f |= 0x00010000;
+    }
+
+    pub fn reset_flag_c(&mut self) {
+        //          76543210
+        self.f &= 0x11101111;
     }
 }

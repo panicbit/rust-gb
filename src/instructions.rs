@@ -110,6 +110,9 @@ instructions! {
         cpu.set_pc(addr);
     };
     0x18, 2, 8, JR_n(offset: u8) => unborrow!(cpu.set_pc(cpu.pc() + offset as u16));
+    0x28, 2, 8, JR_Z(offset: u8) => if cpu.flag_z() {
+        unborrow!(cpu.set_pc(cpu.pc() + offset as u16))
+    };
     0xC9, 1, 8, RET => unborrow!(cpu.set_pc(cpu.pop_u16(mem)));
     0xF5, 1, 16, PUSH_AF => unborrow!(cpu.push_u16(mem, cpu.af()));
     0xC5, 1, 16, PUSH_BC => unborrow!(cpu.push_u16(mem, cpu.bc()));
@@ -120,8 +123,5 @@ instructions! {
     0x04, 1, 4, INC_B => cpu.incr_b();
     0x03, 1, 8, INC_BC => cpu.incr_bc();
     0x23, 1, 8, INC_HL => cpu.incr_hl();
-    0xB1, 1, 4, OR_B => unborrow!(cpu.set_a(cpu.a() | cpu.b()));
-    0x28, 2, 8, JR_Z(offset: u8) => if cpu.flag_z() {
-        unborrow!(cpu.set_pc(cpu.pc() + offset as u16))
-    };
+    0xB1, 1, 4, OR_B => unborrow!(cpu.or(cpu.a()));
 }
