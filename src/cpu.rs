@@ -166,20 +166,17 @@ impl Cpu {
     }
 
     pub fn incr_bc(&mut self) {
-        let value = self.bc();
-        self.set_bc(value);
+        unborrow!(self.set_bc(self.bc().wrapping_add(1)));
         unborrow!(self.incr_affect_flags(self.bc()));
     }
 
     pub fn incr_de(&mut self) {
-        let value = self.de();
-        self.set_de(value);
+        unborrow!(self.set_de(self.de().wrapping_add(1)));
         unborrow!(self.incr_affect_flags(self.de()));
     }
 
     pub fn incr_hl(&mut self) {
-        let value = self.hl();
-        self.set_hl(value);
+        unborrow!(self.set_hl(self.hl().wrapping_add(1)));
         unborrow!(self.incr_affect_flags(self.hl()));
     }
 
