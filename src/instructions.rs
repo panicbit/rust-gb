@@ -96,55 +96,55 @@ impl Param for u16 {
 instructions! {
     |cpu, mem, addr|
     // op, len, cycles
-    0x00, 1, 4, NOP => {};
-    0xF3, 1, 4, DI => cpu.disable_interrupts();
+    0x00, 1,  4, NOP => {};
+    0xF3, 1,  4, DI => cpu.disable_interrupts();
     0xC3, 3, 12, JP_nn(pc: u16) => cpu.set_pc(pc);
-    0x78, 1, 4, LD_A_B => unborrow!(cpu.set_a(cpu.b()));
-    0x7C, 1, 4, LD_A_H => unborrow!(cpu.set_a(cpu.h()));
-    0x7D, 1, 4, LD_A_L => unborrow!(cpu.set_a(cpu.l()));
-    0x1A, 1, 8, LD_A_DE => unborrow!(cpu.set_a(cpu.de() as u8));
-    0x3E, 2, 8, LD_A_n(value: u8) => cpu.set_a(value);
+    0x78, 1,  4, LD_A_B => unborrow!(cpu.set_a(cpu.b()));
+    0x7C, 1,  4, LD_A_H => unborrow!(cpu.set_a(cpu.h()));
+    0x7D, 1,  4, LD_A_L => unborrow!(cpu.set_a(cpu.l()));
+    0x1A, 1,  8, LD_A_DE => unborrow!(cpu.set_a(cpu.de() as u8));
+    0x3E, 2,  8, LD_A_n(value: u8) => cpu.set_a(value);
     0xFA, 3, 16, LD_A_Mnn(p: u16) => cpu.set_a(mem.read_u8(Addr(p)));
-    0x06, 2, 8, LD_B_n(value: u8) => cpu.set_b(value);
-    0x0E, 2, 8, LD_C_n(value: u8) => cpu.set_c(value);
+    0x06, 2,  8, LD_B_n(value: u8) => cpu.set_b(value);
+    0x0E, 2,  8, LD_C_n(value: u8) => cpu.set_c(value);
     0x01, 3, 12, LD_BC_nn(value: u16) => cpu.set_bc(value);
     0x11, 3, 12, LD_DE_nn(value: u16) => cpu.set_de(value);
     0x21, 3, 12, LD_HL_nn(value: u16) => cpu.set_hl(value);
     0x31, 3, 12, LD_SP_nn(value: u16) => cpu.set_sp(value);
-    0x77, 1, 8, LD_MHL_A => mem.write_u16(Addr(cpu.hl()), cpu.a() as u16);
+    0x77, 1,  8, LD_MHL_A => mem.write_u16(Addr(cpu.hl()), cpu.a() as u16);
     0xEA, 3, 16, LD_Mnn_A(p: u16) => mem.write_u16(Addr(p), cpu.a() as u16);
     0xE0, 2, 12, LD_Mn_A(p: u8) => mem.write_u8(Addr(0xFF00) + p as u16, cpu.a());
-    0x2A, 1, 8, LDI_A_MHL => {
+    0x2A, 1,  8, LDI_A_MHL => {
         let value = mem.read_u8(Addr(cpu.hl()));
         cpu.set_a(value);
         cpu.incr_hl();
     };
-    0x22, 1, 8, LDI_MHL_A => {
+    0x22, 1,  8, LDI_MHL_A => {
         mem.write_u8(Addr(cpu.hl()), cpu.a());
         cpu.incr_hl();
     };
     0xC4, 3, 12, CALL_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.call(mem, addr) };
     0xCD, 3, 12, CALL_nn(addr: u16) => cpu.call(mem, addr);
-    0x18, 2, 8, JR_n(offset: u8) => unborrow!(cpu.set_pc(cpu.pc() + offset as u16));
-    0x20, 2, 8, JR_NZ_n(offset: u8) => if !cpu.flag_z() { unborrow!(cpu.set_pc(cpu.pc() + offset as u16)) };
-    0x28, 2, 8, JR_Z(offset: u8) => if cpu.flag_z() {
+    0x18, 2,  8, JR_n(offset: u8) => unborrow!(cpu.set_pc(cpu.pc() + offset as u16));
+    0x20, 2,  8, JR_NZ_n(offset: u8) => if !cpu.flag_z() { unborrow!(cpu.set_pc(cpu.pc() + offset as u16)) };
+    0x28, 2,  8, JR_Z(offset: u8) => if cpu.flag_z() {
         unborrow!(cpu.set_pc(cpu.pc() + offset as u16))
     };
-    0xC9, 1, 8, RET => unborrow!(cpu.set_pc(cpu.pop_u16(mem)));
+    0xC9, 1,  8, RET => unborrow!(cpu.set_pc(cpu.pop_u16(mem)));
     0xF5, 1, 16, PUSH_AF => unborrow!(cpu.push_u16(mem, cpu.af()));
     0xC5, 1, 16, PUSH_BC => unborrow!(cpu.push_u16(mem, cpu.bc()));
     0xE5, 1, 16, PUSH_HL => unborrow!(cpu.push_u16(mem, cpu.hl()));
     0xC1, 1, 12, POP_BC => unborrow!(cpu.set_bc(cpu.pop_u16(mem)));
     0xF1, 1, 12, POP_AF => unborrow!(cpu.set_af(cpu.pop_u16(mem)));
     0xE1, 1, 12, POP_HL => unborrow!(cpu.set_hl(cpu.pop_u16(mem)));
-    0x04, 1, 4, INC_B => cpu.incr_b();
-    0x24, 1, 4, INC_H => cpu.incr_h();
-    0x2C, 1, 4, INC_L => cpu.incr_l();
-    0x03, 1, 8, INC_BC => cpu.incr_bc();
-    0x13, 1, 8, INC_DE => cpu.incr_de();
-    0x23, 1, 8, INC_HL => cpu.incr_hl();
-    0x05, 1, 4, DEC_B => cpu.decr_b();
-    0xB1, 1, 4, OR_B => unborrow!(cpu.or(cpu.a()));
-    0xE6, 2, 8, AND_n(value: u8) => cpu.and(value);
-    0xA9, 1, 4, XOR_C => unborrow!(cpu.xor(cpu.c()));
+    0x04, 1,  4, INC_B => cpu.incr_b();
+    0x24, 1,  4, INC_H => cpu.incr_h();
+    0x2C, 1,  4, INC_L => cpu.incr_l();
+    0x03, 1,  8, INC_BC => cpu.incr_bc();
+    0x13, 1,  8, INC_DE => cpu.incr_de();
+    0x23, 1,  8, INC_HL => cpu.incr_hl();
+    0x05, 1,  4, DEC_B => cpu.decr_b();
+    0xB1, 1,  4, OR_B => unborrow!(cpu.or(cpu.a()));
+    0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
+    0xA9, 1,  4, XOR_C => unborrow!(cpu.xor(cpu.c()));
 }
