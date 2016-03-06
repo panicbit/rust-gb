@@ -145,6 +145,11 @@ impl Cpu {
         self.set_flag_c((a >> 7 + amount >> 7) == 0b10);
     }
 
+    pub fn incr_a(&mut self) {
+        self.a += Wrapping(1);
+        unborrow!(self.incr_affect_flags(self.a() as u16));
+    }
+
     pub fn incr_b(&mut self) {
         self.b += Wrapping(1);
         unborrow!(self.incr_affect_flags(self.b() as u16));
