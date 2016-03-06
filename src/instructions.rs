@@ -151,7 +151,7 @@ instructions! {
     0x13, 1,  8, INC_DE => cpu.incr_de();
     0x23, 1,  8, INC_HL => cpu.incr_hl();
     0x05, 1,  4, DEC_B => cpu.decr_b();
-    0xB1, 1,  4, OR_B => unborrow!(cpu.or(cpu.a()));
+    0xB1, 1,  4, OR_B => unborrow!(cpu.or(cpu.b()));
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xA9, 1,  4, XOR_C => unborrow!(cpu.xor(cpu.c()));
 }
