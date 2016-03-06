@@ -137,6 +137,7 @@ instructions! {
         unborrow!(cpu.set_pc(cpu.pc() + offset as u16))
     };
     0xC9, 1,  8, RET => unborrow!(cpu.set_pc(cpu.pop_u16(mem)));
+    0xC0, 1,  8, RET_NZ => if cpu.flag_z() { RET.execute(cpu, mem) };
     0xF5, 1, 16, PUSH_AF => unborrow!(cpu.push_u16(mem, cpu.af()));
     0xC5, 1, 16, PUSH_BC => unborrow!(cpu.push_u16(mem, cpu.bc()));
     0xE5, 1, 16, PUSH_HL => unborrow!(cpu.push_u16(mem, cpu.hl()));
