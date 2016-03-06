@@ -1,4 +1,4 @@
-use std::ops::{Deref, Add, Index};
+use std::ops::{Deref, Add, Sub, Index};
 use rom::Rom;
 use monster::incubation::SplitInt;
 
@@ -97,6 +97,13 @@ impl Add<u16> for Addr {
     type Output = Addr;
     fn add(self, rhs: u16) -> Addr {
         Addr(self.0 + rhs)
+    }
+}
+
+impl Sub<u16> for Addr {
+    type Output = Addr;
+    fn sub(self, rhs: u16) -> Addr {
+        Addr(self.0 - rhs)
     }
 }
 
