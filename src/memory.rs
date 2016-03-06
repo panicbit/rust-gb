@@ -133,14 +133,14 @@ impl Deref for Addr {
 impl Add<u16> for Addr {
     type Output = Addr;
     fn add(self, rhs: u16) -> Addr {
-        Addr(self.0 + rhs)
+        Addr(self.wrapping_add(rhs))
     }
 }
 
 impl Sub<u16> for Addr {
     type Output = Addr;
     fn sub(self, rhs: u16) -> Addr {
-        Addr(self.0 - rhs)
+        Addr(self.wrapping_sub(rhs))
     }
 }
 
