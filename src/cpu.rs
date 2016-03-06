@@ -73,6 +73,10 @@ impl Cpu {
         self.b = n;
     }
 
+    pub fn set_c(&mut self, n: u8) {
+        self.c = n;
+    }
+
     pub fn set_af(&mut self, n: u16) {
         Self::set_16(&mut self.a, &mut self.f, n);
     }
