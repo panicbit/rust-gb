@@ -191,6 +191,11 @@ impl Cpu {
         unborrow!(self.decr_affect_flags(self.b() as u16));
     }
 
+    pub fn decr_hl(&mut self) {
+        unborrow!(self.set_hl(self.hl().wrapping_sub(1)));
+        unborrow!(self.decr_affect_flags(self.hl()));
+    }
+
     fn decr_affect_flags(&mut self, value: u16) {
         self.set_flag_z(value == 0);
         self.set_flag_n(true);
