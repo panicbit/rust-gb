@@ -147,6 +147,16 @@ impl Cpu {
         self.set_flag_c((a >> 7) + (amount >> 7) == 0b10);
     }
 
+    pub fn sub(&mut self, amount: u8) {
+        let a = self.a();
+        self.a -= Wrapping(amount);
+
+        unborrow!(self.set_flag_z(self.a() == 0));
+        self.set_flag_n(true);
+        // self.set_flag_h((a >> 3 & 0b1) + (amount >> 3 & 0b1) == 0b10);
+        // self.set_flag_c((a >> 7) + (amount >> 7) == 0b10);
+    }
+
     pub fn incr_a(&mut self) {
         self.a += Wrapping(1);
         unborrow!(self.incr_affect_flags(self.a() as u16));
