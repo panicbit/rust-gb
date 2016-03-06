@@ -129,6 +129,10 @@ impl Cpu {
         unborrow!(self.incr_affect_flags(self.b() as u16));
     }
 
+    pub fn incr_l(&mut self) {
+        self.l += 1;
+        unborrow!(self.incr_affect_flags(self.l() as u16));
+    }
 
     pub fn incr_bc(&mut self) {
         let value = self.bc();
