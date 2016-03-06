@@ -105,6 +105,7 @@ instructions! {
     0x1A, 1,  8, LD_A_DE => unborrow!(cpu.set_a(cpu.de() as u8));
     0x3E, 2,  8, LD_A_n(value: u8) => cpu.set_a(value);
     0xFA, 3, 16, LD_A_Mnn(p: u16) => cpu.set_a(mem.read_u8(Addr(p)));
+    0x47, 2,  4, LD_B_A => unborrow!(cpu.set_b(cpu.a()));
     0x06, 2,  8, LD_B_n(value: u8) => cpu.set_b(value);
     0x0E, 2,  8, LD_C_n(value: u8) => cpu.set_c(value);
     0x01, 3, 12, LD_BC_nn(value: u16) => cpu.set_bc(value);
