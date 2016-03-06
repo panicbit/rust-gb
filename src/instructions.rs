@@ -114,7 +114,11 @@ instructions! {
     0x77, 1, 8, LD_MHL_A => mem.write_u16(Addr(cpu.hl()), cpu.a() as u16);
     0xEA, 3, 16, LD_Mnn_A(p: u16) => mem.write_u16(Addr(p), cpu.a() as u16);
     0xE0, 2, 12, LD_Mn_A(p: u8) => mem.write_u8(Addr(0xFF00) + p as u16, cpu.a());
-    0x2A, 1, 8, LDI_A_MHL => unborrow!(cpu.set_a(mem.read_u8(Addr(cpu.hl()))));
+    0x2A, 1, 8, LDI_A_MHL => {
+        let value = mem.read_u8(Addr(cpu.hl()));
+        cpu.set_a(value);
+        cpu.incr_hl();
+    };
     0xC4, 3, 12, CALL_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.call(mem, addr) };
     0xCD, 3, 12, CALL_nn(addr: u16) => cpu.call(mem, addr);
     0x18, 2, 8, JR_n(offset: u8) => unborrow!(cpu.set_pc(cpu.pc() + offset as u16));
