@@ -61,6 +61,10 @@ impl Memory {
         // Video RAM
         if addr.in_range(0x8000, 0xA000) {
             println!("STUB: Video RAM write: 0x{:02X}", *addr);
+        } else
+        // ROM bank #0
+        if addr.in_range(0x0000, 0x4000) {
+            println!("STUB: ROM bank #0 write: 0x{:02X}", *addr);
         } else {
             panic!("write addr stub: 0x{:02X}", *addr);
         }
