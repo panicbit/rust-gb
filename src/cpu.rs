@@ -141,8 +141,8 @@ impl Cpu {
 
         unborrow!(self.set_flag_z(self.a() == 0));
         self.set_flag_n(false);
-        self.set_flag_h((a >> 3 & 0b1 + amount >> 3 & 0b1) == 0b10);
-        self.set_flag_c((a >> 7 + amount >> 7) == 0b10);
+        self.set_flag_h((a >> 3 & 0b1) + (amount >> 3 & 0b1) == 0b10);
+        self.set_flag_c((a >> 7) + (amount >> 7) == 0b10);
     }
 
     pub fn incr_a(&mut self) {
