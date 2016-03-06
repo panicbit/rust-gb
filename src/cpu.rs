@@ -143,8 +143,8 @@ impl Cpu {
 
         unborrow!(self.set_flag_z(self.a() == 0));
         self.set_flag_n(false);
-        self.set_flag_h((a >> 3 & 0b1) + (amount >> 3 & 0b1) == 0b10);
-        self.set_flag_c((a >> 7) + (amount >> 7) == 0b10);
+        self.set_flag_h(0xFF - (a << 4) < (amount << 4));
+        self.set_flag_c(0xFF - a < amount);
     }
 
     pub fn sub(&mut self, amount: u8) {
@@ -153,8 +153,8 @@ impl Cpu {
 
         unborrow!(self.set_flag_z(self.a() == 0));
         self.set_flag_n(true);
-        // self.set_flag_h((a >> 3 & 0b1) + (amount >> 3 & 0b1) == 0b10);
-        // self.set_flag_c((a >> 7) + (amount >> 7) == 0b10);
+        self.set_flag_h((a << 4) < (amount << 4));
+        self.set_flag_c(a < amount);
     }
 
     pub fn incr_a(&mut self) {
