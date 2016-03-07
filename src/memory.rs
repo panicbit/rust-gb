@@ -19,7 +19,7 @@ impl Memory {
 
     pub fn read_u8(&mut self, addr: Addr) -> u8 {
         fn read_stub(msg: &str, addr: u16, value: u8) -> u8 {
-            println!("READ_STUB: 0x{:02X} {}", addr, msg);
+            println!("READ_STUB: 0x{:04X} {}", addr, msg);
             value
         }
         use self::Location::*;
@@ -42,7 +42,7 @@ impl Memory {
 
     pub fn write_u8(&mut self, addr: Addr, value: u8) {
         fn write_stub(msg: &str, addr: u16, value: u8) {
-            println!("WRITE_STUB: 0x{:02X} ← 0x{:02X} {}", addr, value, msg);
+            println!("WRITE_STUB: 0x{:04X} ← 0x{:02X} {}", addr, value, msg);
         }
         use self::Location::*;
         match Location::from_addr(*addr) {
