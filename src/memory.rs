@@ -18,37 +18,44 @@ impl Memory {
     }
 
     pub fn read_u8(&mut self, addr: Addr) -> u8 {
+        fn read_stub(msg: &str, addr: u16, value: u8) -> u8 {
+            println!("READ_STUB: 0x{:02X} {}", addr, msg);
+            value
+        }
         use self::Location::*;
         match Location::from_addr(*addr) {
-            InterruptEnable => { println!("READ_STUB: IE register"); 0 }
+            InterruptEnable => read_stub("IE register", *addr, 0),
             InternalRam128(offset) => self.stack[offset as usize],
             Empty => 0,
-            SerialPort => { println!("STUB: Serial port stub: 0x{:02X}", *addr); 0 }
-            IOStub => { println!("STUB: I/O port access: 0x{:02X}", *addr); 0 }
-            OAM(_offset) => { println!("STUB: OAM access: 0x{:02X}", *addr); 0 }
+            SerialPort => read_stub("serial port", *addr, 0),
+            IOStub => read_stub("I/O port", *addr, 0),
+            OAM(_offset) => read_stub("OAM access", *addr, 0),
             InternalRam8k(offset) => self.ram[offset as usize],
-            VRAM(_offset) => { println!("STUB: Video RAM read: 0x{:02X}", *addr); 0 }
+            VRAM(_offset) => read_stub("Video RAM read", *addr, 0),
             ROM0(offset) => {
                 debug_assert!(self.rom.data.len() >= 0x4000);
                 self.rom.data[offset as usize]
             }
-            Stub => panic!("read addr stub: 0x{:02X}", *addr)
+            Stub => panic!("READ_STUB: 0x{:02X}", *addr)
         }
     }
 
     pub fn write_u8(&mut self, addr: Addr, value: u8) {
+        fn write_stub(msg: &str, addr: u16, value: u8) {
+            println!("WRITE_STUB: 0x{:02X} ← 0x{:02X} {}", addr, value, msg);
+        }
         use self::Location::*;
         match Location::from_addr(*addr) {
-            InterruptEnable => { println!("WRITE_STUB: IE register"); }
+            InterruptEnable => write_stub("IE register", *addr, value),
             InternalRam128(offset) => self.stack[offset as usize] = value,
             Empty => {},
             SerialPort => panic!("STUB: Write to serial port: {}", value as char),
-            IOStub => println!("STUB: I/O port write: 0x{:02X}", *addr),
-            OAM(_offset) => println!("STUB: OAM write: 0x{:02X}", *addr),
+            IOStub => write_stub("I/O port write", *addr, value),
+            OAM(_offset) => write_stub("OAM", *addr, value),
             InternalRam8k(offset) => self.ram[offset as usize] = value,
-            VRAM(_offset) => println!("STUB: Video RAM write: 0x{:02X}", *addr),
-            ROM0(offset) => println!("STUB: ROM bank #0 write: 0x{:02X}", *addr),
-            Stub => panic!("write addr stub: 0x{:02X}", *addr)
+            VRAM(_offset) => write_stub("Video RAM", *addr, value),
+            ROM0(offset) => write_stub("ROM bank #0", *addr, value),
+            Stub => panic!("WRITE_STUB: 0x{:02X} ← 0x{:02X}", *addr, value)
         }
     }
 
