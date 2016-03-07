@@ -37,42 +37,18 @@ impl Memory {
     }
 
     pub fn write_u8(&mut self, addr: Addr, value: u8) {
-        // 128 internal RAM (stack)
-        if *addr >= 0xFF80 {
-            self.stack[(*addr - 0xFF80) as usize] = value;
-        } else
-        // Serial port
-        if *addr == 0xFF01 {
-            panic!("STUB: Write to serial port: {}", value as char);
-        } else
-        // Empty
-        if addr.in_range(0xFF4C, 0xFF80) {
-        } else
-        // I/O ports
-        if addr.in_range(0xFF00, 0xFF4C) {
-            println!("STUB: I/O port write: 0x{:02X}", *addr);
-        } else
-        // OAM
-        if addr.in_range(0xFE00, 0xFF00) {
-            println!("STUB: OAM write: 0x{:02X}", *addr);
-        } else
-        // Echo of 8K internal RAM
-        if addr.in_range(0xE000, 0xFE00) {
-            self.ram[(*addr - 0xE000) as usize] = value;
-        } else
-        // 8K internal RAM
-        if addr.in_range(0xC000, 0xE000) {
-            self.ram[(*addr - 0xC000) as usize] = value;
-        } else
-        // Video RAM
-        if addr.in_range(0x8000, 0xA000) {
-            println!("STUB: Video RAM write: 0x{:02X}", *addr);
-        } else
-        // ROM bank #0
-        if addr.in_range(0x0000, 0x4000) {
-            println!("STUB: ROM bank #0 write: 0x{:02X}", *addr);
-        } else {
-            panic!("write addr stub: 0x{:02X}", *addr);
+        use self::Location::*;
+        match Location::from_addr(*addr) {
+            InterruptEnable => { println!("WRITE_STUB: IE register"); }
+            InternalRam128(offset) => self.stack[offset as usize] = value,
+            Empty => {},
+            SerialPort => panic!("STUB: Write to serial port: {}", value as char),
+            IOStub => println!("STUB: I/O port write: 0x{:02X}", *addr),
+            OAM(_offset) => println!("STUB: OAM write: 0x{:02X}", *addr),
+            InternalRam8k(offset) => self.ram[offset as usize] = value,
+            VRAM(_offset) => println!("STUB: Video RAM write: 0x{:02X}", *addr),
+            ROM0(offset) => println!("STUB: ROM bank #0 write: 0x{:02X}", *addr),
+            Stub => panic!("write addr stub: 0x{:02X}", *addr)
         }
     }
 
