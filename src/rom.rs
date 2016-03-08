@@ -20,7 +20,7 @@ impl Rom {
         Ok(rom)
     }
 
-    pub fn typ(self) -> Type {
+    pub fn typ(&self) -> Type {
         Type::try_from(::header::typ(&self.data)).unwrap_or(Type::UNKNOWN)
     }
 }
