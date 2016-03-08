@@ -43,6 +43,7 @@ macro_rules! instructions {
                 }
             }
 
+            #[allow(unused_variables)]
             pub fn len(&self) -> u16 {
                 use self::Instruction::*;
                 match *self {
@@ -52,6 +53,7 @@ macro_rules! instructions {
                 }
             }
 
+            #[allow(unused_variables)]
             pub fn cycles(&self) -> u16 {
                 use self::Instruction::*;
                 match *self {
