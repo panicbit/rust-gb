@@ -30,3 +30,11 @@ pub fn version(rom: &[u8]) -> u8 {
 pub fn typ(rom: &[u8]) -> u8 {
     rom[0x147]
 }
+
+pub fn rom_size(rom: &[u8]) -> u8 {
+    rom[0x148]
+}
+
+pub fn ram_size(rom: &[u8]) -> u8 {
+    rom[0x149]
+}

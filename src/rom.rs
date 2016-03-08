@@ -23,6 +23,14 @@ impl Rom {
     pub fn typ(&self) -> Type {
         Type::try_from(::header::typ(&self.data)).unwrap_or(Type::UNKNOWN)
     }
+
+    pub fn rom_size(&self) -> RomSize {
+        RomSize::try_from(::header::rom_size(&self.data)).unwrap_or(RomSize::UNKNOWN)
+    }
+
+    pub fn ram_size(&self) -> RamSize {
+        RamSize::try_from(::header::ram_size(&self.data)).unwrap_or(RamSize::UNKNOWN)
+    }
 }
 
 custom_derive! {
@@ -50,6 +58,37 @@ custom_derive! {
         PocketCamera          = 0x1F,
         BandaiTAMA5           = 0xFD,
         HudsonHuC3            = 0xFE,
+        UNKNOWN
+    }
+}
+
+custom_derive! {
+    #[derive(TryFrom(u8),Debug, Eq, PartialEq, Ord, PartialOrd)]
+    pub enum RomSize {
+        Kb32  = 0x00,
+        Kb64  = 0x01,
+        Kb128 = 0x02,
+        Kb256 = 0x03,
+        Kb512 = 0x04,
+        Mb1   = 0x05,
+        Mb2   = 0x06,
+        Mb4   = 0x07,
+        Mb1_1 = 0x52,
+        Mb1_2 = 0x53,
+        Mb1_5 = 0x54,
+        UNKNOWN
+    }
+}
+
+custom_derive! {
+    #[derive(TryFrom(u8),Debug, Eq, PartialEq, Ord, PartialOrd)]
+    pub enum RamSize {
+        None  = 0x00,
+        Kb2   = 0x01,
+        Kb8   = 0x02,
+        Kb32  = 0x03,
+        Kb128 = 0x04,
+        Kb64  = 0x05,
         UNKNOWN
     }
 }
