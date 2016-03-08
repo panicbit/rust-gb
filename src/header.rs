@@ -26,3 +26,7 @@ pub fn manufacturer(rom: &[u8]) -> &[u8] {
 pub fn version(rom: &[u8]) -> u8 {
     rom[0x14C]
 }
+
+pub fn typ(rom: &[u8]) -> u8 {
+    rom[0x147]
+}

@@ -2,6 +2,8 @@ extern crate byteorder;
 extern crate monster;
 extern crate bit_range;
 #[macro_use] extern crate unborrow;
+#[macro_use] extern crate custom_derive;
+#[macro_use] extern crate conv;
 use std::ascii::AsciiExt;
 use std::str;
 use monster::incubation::SliceTakeWhile;

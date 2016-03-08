@@ -1,6 +1,7 @@
 use std::path::Path;
 use std::io::{self, Read};
 use std::fs::File;
+use conv::TryFrom;
 
 pub struct Rom {
     pub data: Vec<u8>
@@ -18,29 +19,37 @@ impl Rom {
 
         Ok(rom)
     }
+
+    pub fn typ(self) -> Type {
+        Type::try_from(::header::typ(&self.data)).unwrap_or(Type::UNKNOWN)
+    }
 }
 
-pub enum Type {
-    ROM                       = 0x00,
-    ROM_MBC1                  = 0x01,
-    ROM_MBC1_RAM              = 0x02,
-    ROM_MBC1_RAM_BATT         = 0x03,
-    ROM_MBC2                  = 0x05,
-    ROM_MBC2_BATTERY          = 0x06,
-    ROM_RAM                   = 0x08,
-    ROM_RAM_BATTERY           = 0x09,
-    ROM_MMM01                 = 0x0B,
-    ROM_MMM01_SRAM            = 0x0C,
-    ROM_MMM01_SRAM_BATT       = 0x0D,
-    ROM_MBC3_RAM              = 0x12,
-    ROM_MBC3_RAM_BATT         = 0x13,
-    ROM_MBC5                  = 0x19,
-    ROM_MBC5_RAM              = 0x1A,
-    ROM_MBC5_RAM_BATT         = 0x1B,
-    ROM_MBC5_RUMBLE           = 0x1C,
-    ROM_MBC5_RUMBLE_SRAM      = 0x1D,
-    ROM_MBC5_RUMBLE_SRAM_BATT = 0x1E,
-    PocketCamera              = 0x1F,
-    BandaiTAMA5               = 0xFD,
-    HudsonHuC3                = 0xFE,
+custom_derive! {
+    #[derive(TryFrom(u8),Debug, Eq, PartialEq, Ord, PartialOrd)]
+    pub enum Type {
+        Rom                   = 0x00,
+        RomMbc1               = 0x01,
+        RomMbc1_Ram           = 0x02,
+        RomMbc1RamBatt        = 0x03,
+        RomMbc2               = 0x05,
+        RomMbc2Batt           = 0x06,
+        RomRam                = 0x08,
+        RomRamBatt            = 0x09,
+        RomMmm01              = 0x0B,
+        RomMmm01Sram          = 0x0C,
+        RomMmm01SramBatt      = 0x0D,
+        RomMbc3Ram            = 0x12,
+        RomMbc3RamBatt        = 0x13,
+        RomMbc5               = 0x19,
+        RomMbc5Ram            = 0x1A,
+        RomMbc5RamBatt        = 0x1B,
+        RomMbc5Rumble         = 0x1C,
+        RomMbc5RumbleSram     = 0x1D,
+        RomMbc5RumbleSramBatt = 0x1E,
+        PocketCamera          = 0x1F,
+        BandaiTAMA5           = 0xFD,
+        HudsonHuC3            = 0xFE,
+        UNKNOWN
+    }
 }
