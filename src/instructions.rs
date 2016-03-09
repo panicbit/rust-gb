@@ -99,6 +99,7 @@ instructions! {
     |cpu, mem, addr|
     // op, len, cycles
     0x00, 1,  4, NOP => {};
+    0xFB, 1,  4, EI => cpu.enable_interrupts();
     0xF3, 1,  4, DI => cpu.disable_interrupts();
     0xC3, 3, 12, JP_nn(pc: u16) => cpu.set_pc(pc);
     0x78, 1,  4, LD_A_B => unborrow!(cpu.set_a(cpu.b()));
