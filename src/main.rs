@@ -24,6 +24,9 @@ fn main() {
     let rom = Rom::load("./gb-tests/cpu_instrs/cpu_instrs.gb").expect("rom");
 
     print_logo(logo(&rom.data));
+    println!("Rom type: {:?}", rom.typ());
+    println!("Rom size: {:?}", rom.rom_size());
+    println!("Ram size: {:?}", rom.ram_size());
 
     let mut memory = Memory::new(rom);
     let mut cpu = Cpu::new();
