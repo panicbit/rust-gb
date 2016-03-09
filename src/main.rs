@@ -14,6 +14,7 @@ mod cpu;
 mod instructions;
 mod memory;
 mod rom;
+mod mapper;
 
 use self::header::*;
 use self::cpu::*;

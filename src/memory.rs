@@ -1,8 +1,10 @@
 use std::ops::{Deref, Add, Sub, Index};
 use rom::Rom;
 use monster::incubation::SplitInt;
+use mapper::Mapper;
 
 pub struct Memory {
+    mapper: Box<Mapper>,
     stack: [u8; 128], // 0xFF = IF
     ram: [u8; 8*1024],
     rom: Rom,
@@ -11,6 +13,7 @@ pub struct Memory {
 impl Memory {
     pub fn new(rom: Rom) -> Self {
         Memory {
+            mapper: ::mapper::from_rom(&rom),
             stack: [0; 128],
             ram: [0; 8*1024],
             rom: rom,
@@ -31,7 +34,9 @@ impl Memory {
             IOStub => read_stub("I/O port", *addr, 0),
             OAM(_offset) => read_stub("OAM access", *addr, 0),
             InternalRam8k(offset) => self.ram[offset as usize],
+            SwitchableRam => self.mapper.read_u8(&self.rom.data, addr),
             VRAM(_offset) => read_stub("Video RAM read", *addr, 0),
+            SwitchableRom => self.mapper.read_u8(&self.rom.data, addr),
             ROM0(offset) => {
                 debug_assert!(self.rom.data.len() >= 0x4000);
                 self.rom.data[offset as usize]
@@ -53,7 +58,9 @@ impl Memory {
             IOStub => write_stub("I/O port write", *addr, value),
             OAM(_offset) => write_stub("OAM", *addr, value),
             InternalRam8k(offset) => self.ram[offset as usize] = value,
+            SwitchableRam => self.mapper.write_u8(&self.rom.data, addr, value),
             VRAM(_offset) => write_stub("Video RAM", *addr, value),
+            SwitchableRom => self.mapper.write_u8(&self.rom.data, addr, value),
             ROM0(offset) => write_stub("ROM bank #0", *addr, value),
             Stub => panic!("WRITE_STUB: 0x{:02X} ← 0x{:02X}", *addr, value)
         }
@@ -86,7 +93,9 @@ pub enum Location {
     IOStub,
     OAM(u16),
     InternalRam8k(u16),
+    SwitchableRam,
     VRAM(u16),
+    SwitchableRom,
     ROM0(u16),
     Stub,
 }
@@ -104,7 +113,9 @@ impl Location {
             0xFE00 ... 0xFE9F => OAM(addr - 0xFE00),
             0xE000 ... 0xFDFF => InternalRam8k(addr - 0xE000),
             0xC000 ... 0xDFFF => InternalRam8k(addr - 0xC000),
+            0xA000 ... 0xBFFF => SwitchableRam,
             0x8000 ... 0x9FFF => VRAM(addr - 0x8000),
+            0x4000 ... 0x7FFF => SwitchableRom,
             0x0000 ... 0x3FFF => ROM0(addr),
             _                 => Stub
         }
