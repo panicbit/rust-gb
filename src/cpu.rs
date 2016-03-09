@@ -255,6 +255,11 @@ impl Cpu {
         unborrow!(self.decr_affect_flags(self.b() as u16));
     }
 
+    pub fn decr_d(&mut self) {
+        self.d -= Wrapping(1);
+        unborrow!(self.decr_affect_flags(self.d() as u16));
+    }
+
     pub fn decr_hl(&mut self) {
         unborrow!(self.set_hl(self.hl().wrapping_sub(1)));
         unborrow!(self.decr_affect_flags(self.hl()));
