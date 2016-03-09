@@ -84,6 +84,10 @@ impl Cpu {
         self.c = Wrapping(n);
     }
 
+    pub fn set_e(&mut self, n: u8) {
+        self.e = Wrapping(n);
+    }
+
     pub fn set_h(&mut self, n: u8) {
         self.h = Wrapping(n);
     }

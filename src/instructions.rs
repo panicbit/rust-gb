@@ -111,6 +111,7 @@ instructions! {
     0x47, 2,  4, LD_B_A => unborrow!(cpu.set_b(cpu.a()));
     0x06, 2,  8, LD_B_n(value: u8) => cpu.set_b(value);
     0x0E, 2,  8, LD_C_n(value: u8) => cpu.set_c(value);
+    0x5A, 1,  4, LD_E_D => unborrow!(cpu.set_e(cpu.d()));
     0x26, 2,  8, LD_H_n(value: u8) => cpu.set_h(value);
     0x01, 3, 12, LD_BC_nn(value: u16) => cpu.set_bc(value);
     0x11, 3, 12, LD_DE_nn(value: u16) => cpu.set_de(value);
