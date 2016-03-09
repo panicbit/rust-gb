@@ -65,7 +65,7 @@ macro_rules! instructions {
 
             pub fn execute(&self, $cpu: &mut Cpu, $mem: &mut Memory) {
                 use self::Instruction::*;
-                println!("OP: {:?}", self);
+                //println!("OP: {:?}", self);
                 match *self {
                     $(
                         $name$(( $( $p_name ),+ ))* => {$exec;}

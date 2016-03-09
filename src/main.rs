@@ -22,7 +22,7 @@ use self::rom::*;
 use self::memory::*;
 
 fn main() {
-    let rom = Rom::load("./gb-tests/cpu_instrs/cpu_instrs.gb").expect("rom");
+    let rom = Rom::load("./gb-tests/cpu_instrs/individual/06-ld r,r.gb").expect("rom");
 
     print_logo(logo(&rom.data));
     println!("Rom type: {:?}", rom.typ());
@@ -33,7 +33,7 @@ fn main() {
     let mut cpu = Cpu::new();
 
     for i in 0 .. ::std::u64::MAX {
-        println!("Step: {}", i+1);
+        //println!("Step: {}", i+1);
         cpu.step(&mut memory);
         // cpu.print_registers();
     }
