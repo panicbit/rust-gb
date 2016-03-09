@@ -163,4 +163,5 @@ instructions! {
     0xB1, 1,  4, OR_B => unborrow!(cpu.or(cpu.b()));
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xA9, 1,  4, XOR_C => unborrow!(cpu.xor(cpu.c()));
+    0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
 }

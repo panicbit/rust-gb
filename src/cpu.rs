@@ -165,6 +165,14 @@ impl Cpu {
         self.set_flag_c(a < amount);
     }
 
+    pub fn compare(&mut self, value: u8) {
+        let a = self.a();
+        unborrow!(self.set_flag_z(a == value));
+        self.set_flag_n(true);
+        self.set_flag_h((a << 4) < (value << 4));
+        self.set_flag_c(a < value);
+    }
+
     pub fn incr_a(&mut self) {
         self.a += Wrapping(1);
         unborrow!(self.incr_affect_flags(self.a() as u16));
