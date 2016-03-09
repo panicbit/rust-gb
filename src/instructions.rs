@@ -117,6 +117,7 @@ instructions! {
     0x11, 3, 12, LD_DE_nn(value: u16) => cpu.set_de(value);
     0x21, 3, 12, LD_HL_nn(value: u16) => cpu.set_hl(value);
     0x31, 3, 12, LD_SP_nn(value: u16) => cpu.set_sp(value);
+    0x12, 1,  8, LD_MDE_A => mem.write_u16(Addr(cpu.de()), cpu.a() as u16);
     0x77, 1,  8, LD_MHL_A => mem.write_u16(Addr(cpu.hl()), cpu.a() as u16);
     0xEA, 3, 16, LD_Mnn_A(p: u16) => mem.write_u16(Addr(p), cpu.a() as u16);
     0xE0, 2, 12, LD_Mn_A(p: u8) => mem.write_u8(Addr(0xFF00) + p as u16, cpu.a());
@@ -156,6 +157,7 @@ instructions! {
     0xCE, 1,  8, ADC_n(amount: u8) => cpu.add_carry(amount);
     0x3C, 1,  4, INC_A => cpu.incr_a();
     0x04, 1,  4, INC_B => cpu.incr_b();
+    0x1C, 1,  4, INC_E => cpu.incr_e();
     0x24, 1,  4, INC_H => cpu.incr_h();
     0x2C, 1,  4, INC_L => cpu.incr_l();
     0x03, 1,  8, INC_BC => cpu.incr_bc();
