@@ -40,6 +40,7 @@ impl Cpu {
     pub fn c(&self) -> u8 { self.c.0 }
     pub fn d(&self) -> u8 { self.d.0 }
     pub fn e(&self) -> u8 { self.e.0 }
+    pub fn f(&self) -> u8 { self.f   }
     pub fn l(&self) -> u8 { self.l.0 }
     pub fn h(&self) -> u8 { self.h.0 }
 
@@ -86,6 +87,10 @@ impl Cpu {
 
     pub fn set_e(&mut self, n: u8) {
         self.e = Wrapping(n);
+    }
+
+    pub fn set_f(&mut self, n: u8) {
+        self.f = n;
     }
 
     pub fn set_h(&mut self, n: u8) {
@@ -153,6 +158,14 @@ impl Cpu {
         self.set_flag_n(false);
         self.set_flag_h(0xFF - (a << 4) < (amount << 4));
         self.set_flag_c(0xFF - a < amount);
+    }
+
+    pub fn add_carry(&mut self, amount: u8) {
+        let carry = self.f() >> 4 & 0b1;
+        self.add(amount);
+        let f = self.f();
+        self.add(carry);
+        unborrow!(self.set_f(f | self.f()));
     }
 
     pub fn sub(&mut self, amount: u8) {
