@@ -157,6 +157,7 @@ instructions! {
     0xCE, 1,  8, ADC_n(amount: u8) => cpu.add_carry(amount);
     0x3C, 1,  4, INC_A => cpu.incr_a();
     0x04, 1,  4, INC_B => cpu.incr_b();
+    0x0C, 1,  4, INC_C => cpu.incr_c();
     0x1C, 1,  4, INC_E => cpu.incr_e();
     0x24, 1,  4, INC_H => cpu.incr_h();
     0x2C, 1,  4, INC_L => cpu.incr_l();
