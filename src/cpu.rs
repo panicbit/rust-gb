@@ -336,63 +336,64 @@ impl Cpu {
         println!(r"| bc: {:02X}", self.bc());
         println!(r"| de: {:02X}", self.de());
         println!(r"| hl: {:02X}", self.hl());
+        println!(r"| z?: {}", self.flag_z());
         println!("");
 
     }
 
     pub fn flag_z(&self)  -> bool {
         //          76543210
-        self.f >= 0x10000000
+        self.f >= 0b10000000
     }
 
     pub fn set_flag_z(&mut self, set: bool) {
         //              76543210
         if set {
-            self.f |= 0x10000000;
+            self.f |= 0b10000000;
         } else {
-            self.f &= 0x01111111;
+            self.f &= 0b01111111;
         }
     }
 
     pub fn flag_n(&self)  -> bool {
         //          76543210
-        self.f >= 0x01000000
+        self.f >= 0b01000000
     }
 
     pub fn set_flag_n(&mut self, set: bool) {
         //              76543210
         if set {
-            self.f |= 0x01000000;
+            self.f |= 0b01000000;
         } else {
-            self.f &= 0x10111111;
+            self.f &= 0b10111111;
         }
     }
 
     pub fn flag_h(&self)  -> bool {
         //          76543210
-        self.f >= 0x00100000
+        self.f >= 0b00100000
     }
 
     pub fn set_flag_h(&mut self, set: bool) {
         //              76543210
         if set {
-            self.f |= 0x00100000;
+            self.f |= 0b00100000;
         } else {
-            self.f &= 0x11011111;
+            self.f &= 0b11011111;
         }
     }
 
     pub fn flag_c(&self)  -> bool {
         //          76543210
-        self.f >= 0x00010000
+        self.f >= 0b00010000
     }
 
     pub fn set_flag_c(&mut self, set: bool) {
         //              76543210
         if set {
-            self.f |= 0x00010000;
+            self.f |= 0b00010000;
         } else {
-            self.f &= 0x11101111;
+            self.f &= 0b11101111;
         }
     }
 }
