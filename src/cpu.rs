@@ -28,7 +28,7 @@ impl Cpu {
             c: Wrapping(0),
             d: Wrapping(0),
             e: Wrapping(0),
-            f: 0,
+            f: 0b10110000,
             h: Wrapping(0),
             l: Wrapping(0),
             interrupts_enabled: true,
