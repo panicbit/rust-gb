@@ -145,6 +145,7 @@ impl Cpu {
 
     pub fn step(&mut self, mem: &mut Memory) {
         let inst = Instruction::decode(mem, Addr(self.pc()));
+        println!("{:04X} | {:?}", self.pc(), inst);
         self.pc += Wrapping(inst.len());
         let cycles = inst.cycles();
         inst.execute(self, mem);
