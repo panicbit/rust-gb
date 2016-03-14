@@ -312,6 +312,14 @@ impl Cpu {
         self.interrupts_enabled
     }
 
+    pub fn jump_routine(&mut self, offset: i8) {
+        if offset >= 0 {
+            unborrow!(self.set_pc(self.pc().wrapping_add( offset as u16)))
+        } else {
+            unborrow!(self.set_pc(self.pc().wrapping_sub(offset.abs() as u16)))
+        }
+    }
+
     pub fn print_registers(&self) {
         println!(r"--------------");
         println!(r"| pc: {:02X}", self.pc());

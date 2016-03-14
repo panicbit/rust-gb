@@ -88,6 +88,13 @@ impl Param for u8 {
     }
 }
 
+impl Param for i8 {
+    fn get(mem: &mut Memory, addr: &mut Addr) -> Self {
+        *addr = *addr + 1;
+        mem.read_u8(*addr - 1) as i8
+    }
+}
+
 impl Param for u16 {
     fn get(mem: &mut Memory, addr: &mut Addr) -> Self {
         *addr = *addr + 2;
@@ -138,11 +145,9 @@ instructions! {
     0xCD, 3, 12, CALL_nn(addr: u16) => cpu.call(mem, addr);
     0xE9, 1,  4, JP_HL => unborrow!(cpu.set_pc(cpu.hl()));
     0xC2, 3, 12, JP_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.set_pc(addr) };
-    0x18, 2,  8, JR_n(offset: u8) => unborrow!(cpu.set_pc(cpu.pc() + offset as u16));
-    0x20, 2,  8, JR_NZ_n(offset: u8) => if !cpu.flag_z() { unborrow!(cpu.set_pc(cpu.pc() + offset as u16)) };
-    0x28, 2,  8, JR_Z(offset: u8) => if cpu.flag_z() {
-        unborrow!(cpu.set_pc(cpu.pc() + offset as u16))
-    };
+    0x18, 2,  8, JR_n(offset: i8) => cpu.jump_routine(offset);
+    0x20, 2,  8, JR_NZ_n(offset: i8) => if !cpu.flag_z() { cpu.jump_routine(offset) };
+    0x28, 2,  8, JR_Z(offset: i8) => if cpu.flag_z() { cpu.jump_routine(offset) };
     0xC9, 1,  8, RET => unborrow!(cpu.set_pc(cpu.pop_u16(mem)));
     0xC0, 1,  8, RET_NZ => if cpu.flag_z() { RET.execute(cpu, mem) };
     0xF5, 1, 16, PUSH_AF => unborrow!(cpu.push_u16(mem, cpu.af()));
