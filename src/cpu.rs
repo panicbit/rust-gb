@@ -332,7 +332,7 @@ impl Cpu {
 
     }
 
-    pub fn flag_z(&mut self)  -> bool {
+    pub fn flag_z(&self)  -> bool {
         //          76543210
         self.f >= 0x10000000
     }
@@ -346,7 +346,7 @@ impl Cpu {
         }
     }
 
-    pub fn flag_n(&mut self)  -> bool {
+    pub fn flag_n(&self)  -> bool {
         //          76543210
         self.f >= 0x01000000
     }
@@ -360,7 +360,7 @@ impl Cpu {
         }
     }
 
-    pub fn flag_h(&mut self)  -> bool {
+    pub fn flag_h(&self)  -> bool {
         //          76543210
         self.f >= 0x00100000
     }
@@ -374,7 +374,7 @@ impl Cpu {
         }
     }
 
-    pub fn flag_c(&mut self)  -> bool {
+    pub fn flag_c(&self)  -> bool {
         //          76543210
         self.f >= 0x00010000
     }
