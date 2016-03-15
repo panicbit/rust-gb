@@ -98,19 +98,19 @@ impl Cpu {
     }
 
     pub fn set_af(&mut self, n: u16) {
-        Self::set_16(&mut self.a(), &mut self.f, n);
+        Self::set_16(&mut self.a.0, &mut self.f, n);
     }
 
     pub fn set_bc(&mut self, n: u16) {
-        Self::set_16(&mut self.b(), &mut self.c(), n);
+        Self::set_16(&mut self.b.0, &mut self.c.0, n);
     }
 
     pub fn set_de(&mut self, n: u16) {
-        Self::set_16(&mut self.d(), &mut self.e(), n);
+        Self::set_16(&mut self.d.0, &mut self.e.0, n);
     }
 
     pub fn set_hl(&mut self, n: u16) {
-        Self::set_16(&mut self.h(), &mut self.l(), n);
+        Self::set_16(&mut self.h.0, &mut self.l.0, n);
     }
 
     pub fn set_pc(&mut self, pc: u16) {
