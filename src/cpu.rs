@@ -68,7 +68,7 @@ impl Cpu {
         self.sp.0
     }
 
-    fn set_16(low: &mut u8, high: &mut u8, n: u16) {
+    fn set_16(high: &mut u8, low: &mut u8, n: u16) {
         *high = (n >> 8) as u8;
         *low = n as u8;
     }
