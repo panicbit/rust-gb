@@ -237,6 +237,14 @@ impl Cpu {
         unborrow!(self.incr_affect_flags(self.hl()));
     }
 
+    pub fn incr_hl_without_affecting_flags(&mut self) {
+        unborrow!(self.set_hl(self.hl().wrapping_add(1)));
+    }
+
+    pub fn decr_hl_without_affecting_flags(&mut self) {
+        unborrow!(self.set_hl(self.hl().wrapping_sub(1)));
+    }
+
     pub fn incr_mhl(&mut self, mem: &mut Memory) {
         let addr = Addr(self.hl());
         let value = mem.read_u8(addr);

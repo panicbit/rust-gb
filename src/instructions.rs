@@ -131,15 +131,15 @@ instructions! {
     0x2A, 1,  8, LDI_A_MHL => {
         let value = mem.read_u8(Addr(cpu.hl()));
         cpu.set_a(value);
-        cpu.incr_hl();
+        cpu.incr_hl_without_affecting_flags();
     };
     0x22, 1,  8, LDI_MHL_A => {
         mem.write_u8(Addr(cpu.hl()), cpu.a());
-        cpu.incr_hl();
+        cpu.incr_hl_without_affecting_flags();
     };
     0x32, 1,  8, LDD_MHL_A => {
         mem.write_u8(Addr(cpu.hl()), cpu.a());
-        cpu.decr_hl();
+        cpu.decr_hl_without_affecting_flags();
     };
     0xC4, 3, 12, CALL_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.call(mem, addr) };
     0xCD, 3, 12, CALL_nn(addr: u16) => cpu.call(mem, addr);
