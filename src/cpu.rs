@@ -331,20 +331,12 @@ impl Cpu {
 
     pub fn print_registers(&self) {
         println!(r"--------------");
-        println!(r"| pc: {:02X}", self.pc());
-        println!(r"| sp: {:02X}", self.sp());
-        println!(r"| a: {:02X}", self.a());
-        println!(r"| b: {:02X}", self.b());
-        println!(r"| c: {:02X}", self.c());
-        println!(r"| d: {:02X}", self.d());
-        println!(r"| e: {:02X}", self.e());
-        println!(r"| f: {:02X}", self.f);
-        println!(r"| h: {:02X}", self.h());
-        println!(r"| l: {:02X}", self.l());
-        println!(r"| af: {:02X}", self.af());
-        println!(r"| bc: {:02X}", self.bc());
-        println!(r"| de: {:02X}", self.de());
-        println!(r"| hl: {:02X}", self.hl());
+        println!(r"| af: {:02X}{:02X}", self.a(), self.f());
+        println!(r"| bc: {:02X}{:02X}", self.b(), self.c());
+        println!(r"| de: {:02X}{:02X}", self.d(), self.e());
+        println!(r"| hl: {:02X}{:02X}", self.h(), self.l());
+        println!(r"| sp: {:04X}", self.sp());
+        println!(r"| pc: {:04X}", self.pc());
         println!(r"| z?: {}", self.flag_z());
         println!("");
 
