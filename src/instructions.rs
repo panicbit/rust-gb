@@ -174,7 +174,8 @@ instructions! {
     0x05, 1,  4, DEC_B => cpu.decr_b();
     0x0D, 1,  4, DEC_C => cpu.decr_c();
     0xB7, 1,  4, OR_A => unborrow!(cpu.or(cpu.a()));
-    0xB1, 1,  4, OR_B => unborrow!(cpu.or(cpu.b()));
+    0xB0, 1,  4, OR_B => unborrow!(cpu.or(cpu.b()));
+    0xB1, 1,  4, OR_C => unborrow!(cpu.or(cpu.c()));
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xA9, 1,  4, XOR_C => unborrow!(cpu.xor(cpu.c()));
     0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
