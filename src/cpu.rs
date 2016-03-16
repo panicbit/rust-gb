@@ -256,7 +256,7 @@ impl Cpu {
     fn incr_affect_flags(&mut self, value: u16) {
         self.set_flag_z(value == 0);
         self.set_flag_n(false);
-        self.set_flag_h(value & 0b1111 == 0);
+        self.set_flag_h(value & 0xF == 0);
     }
 
     pub fn decr_b(&mut self) {
@@ -282,7 +282,7 @@ impl Cpu {
     fn decr_affect_flags(&mut self, value: u16) {
         self.set_flag_z(value == 0);
         self.set_flag_n(true);
-        self.set_flag_h(value & 0b1111 != 0b1111);
+        self.set_flag_h(value & 0xF == 0xF);
     }
 
     pub fn or(&mut self, value: u8) {
