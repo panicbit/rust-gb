@@ -163,7 +163,15 @@ instructions! {
     0x5B, 1,  4, LD_E_E => unborrow!(cpu.set_e(cpu.e()));
     0x5C, 1,  4, LD_E_H => unborrow!(cpu.set_e(cpu.h()));
     0x5D, 1,  4, LD_E_L => unborrow!(cpu.set_e(cpu.l()));
+    0x5E, 1,  8, LD_E_MHL => unborrow!(cpu.set_e(mem.read_u8(Addr(cpu.hl()))));
     0x67, 1,  4, LD_H_A => unborrow!(cpu.set_h(cpu.a()));
+    0x60, 1,  4, LD_H_B => unborrow!(cpu.set_h(cpu.b()));
+    0x61, 1,  4, LD_H_C => unborrow!(cpu.set_h(cpu.c()));
+    0x62, 1,  4, LD_H_D => unborrow!(cpu.set_h(cpu.d()));
+    0x63, 1,  4, LD_H_E => unborrow!(cpu.set_h(cpu.e()));
+    0x64, 1,  4, LD_H_H => unborrow!(cpu.set_h(cpu.h()));
+    0x65, 1,  4, LD_H_L => unborrow!(cpu.set_h(cpu.l()));
+    0x66, 1,  8, LD_H_MHL => unborrow!(cpu.set_h(mem.read_u8(Addr(cpu.hl()))));
     0x26, 2,  8, LD_H_n(value: u8) => cpu.set_h(value);
     0x6F, 1,  4, LD_L_A => unborrow!(cpu.set_l(cpu.a()));
     0x2E, 2,  8, LD_L_n(value: u8) => cpu.set_l(value);
