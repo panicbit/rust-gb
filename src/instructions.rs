@@ -201,6 +201,7 @@ instructions! {
     0x13, 1,  8, INC_DE => cpu.incr_de();
     0x23, 1,  8, INC_HL => cpu.incr_hl();
     0x34, 1, 12, INC_MHL => cpu.incr_mhl(mem);
+    0x3D, 1,  4, DEC_A => cpu.decr_a();
     0x05, 1,  4, DEC_B => cpu.decr_b();
     0x0D, 1,  4, DEC_C => cpu.decr_c();
     0x25, 1,  4, DEC_H => cpu.decr_h();
