@@ -180,5 +180,6 @@ instructions! {
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xA9, 1,  4, XOR_C => unborrow!(cpu.xor(cpu.c()));
     0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
+    0xFE, 2,  8, CP_n(value: u8) => unborrow!(cpu.compare(value));
     0x2F, 1,  4, CPL => unborrow!(cpu.set_a(cpu.a() ^ 0xFF));
 }
