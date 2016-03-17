@@ -179,7 +179,10 @@ instructions! {
     0x28, 2,  8, JR_Z(offset: i8) => if cpu.flag_z() { cpu.jump_routine(offset) };
     0x30, 2,  8, JR_NC(offset: i8) => if !cpu.flag_c() { cpu.jump_routine(offset) };
     0xC9, 1,  8, RET => unborrow!(cpu.set_pc(cpu.pop_u16(mem)));
-    0xC0, 1,  8, RET_NZ => if cpu.flag_z() { RET.execute(cpu, mem) };
+    0xC8, 1,  8, RET_Z => if cpu.flag_z() { RET.execute(cpu, mem) };
+    0xC0, 1,  8, RET_NZ => if !cpu.flag_z() { RET.execute(cpu, mem) };
+    0xD8, 1,  8, RET_C => if cpu.flag_c() { RET.execute(cpu, mem) };
+    0xD0, 1,  8, RET_NC => if !cpu.flag_c() { RET.execute(cpu, mem) };
     0xF5, 1, 16, PUSH_AF => unborrow!(cpu.push_u16(mem, cpu.af()));
     0xC5, 1, 16, PUSH_BC => unborrow!(cpu.push_u16(mem, cpu.bc()));
     0xD5, 1, 16, PUSH_DE => unborrow!(cpu.push_u16(mem, cpu.de()));
