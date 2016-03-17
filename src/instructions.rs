@@ -182,8 +182,9 @@ instructions! {
     0xC5, 1, 16, PUSH_BC => unborrow!(cpu.push_u16(mem, cpu.bc()));
     0xD5, 1, 16, PUSH_DE => unborrow!(cpu.push_u16(mem, cpu.de()));
     0xE5, 1, 16, PUSH_HL => unborrow!(cpu.push_u16(mem, cpu.hl()));
-    0xC1, 1, 12, POP_BC => unborrow!(cpu.set_bc(cpu.pop_u16(mem)));
     0xF1, 1, 12, POP_AF => unborrow!(cpu.set_af(cpu.pop_u16(mem)));
+    0xC1, 1, 12, POP_BC => unborrow!(cpu.set_bc(cpu.pop_u16(mem)));
+    0xD1, 1, 12, POP_DE => unborrow!(cpu.set_de(cpu.pop_u16(mem)));
     0xE1, 1, 12, POP_HL => unborrow!(cpu.set_hl(cpu.pop_u16(mem)));
     0xC6, 2,  8, ADD_n(amount: u8) => cpu.add(amount);
     0xD6, 2,  8, SUB_n(amount: u8) => cpu.sub(amount);
