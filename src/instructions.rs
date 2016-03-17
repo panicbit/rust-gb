@@ -132,6 +132,11 @@ instructions! {
     0xFA, 3, 16, LD_A_Mnn(p: u16) => cpu.set_a(mem.read_u8(Addr(p)));
     0x47, 1,  4, LD_B_A => unborrow!(cpu.set_b(cpu.a()));
     0x40, 1,  4, LD_B_B => unborrow!(cpu.set_b(cpu.b()));
+    0x41, 1,  4, LD_B_C => unborrow!(cpu.set_b(cpu.c()));
+    0x42, 1,  4, LD_B_D => unborrow!(cpu.set_b(cpu.d()));
+    0x43, 1,  4, LD_B_E => unborrow!(cpu.set_b(cpu.e()));
+    0x44, 1,  4, LD_B_H => unborrow!(cpu.set_b(cpu.h()));
+    0x45, 1,  4, LD_B_L => unborrow!(cpu.set_b(cpu.l()));
     0x46, 1,  8, LD_B_MHL => unborrow!(cpu.set_b(mem.read_u8(Addr(cpu.hl()))));
     0x06, 2,  8, LD_B_n(value: u8) => cpu.set_b(value);
     0x4F, 1,  4, LD_C_A => unborrow!(cpu.set_c(cpu.a()));
