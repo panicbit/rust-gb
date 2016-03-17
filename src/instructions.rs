@@ -132,6 +132,7 @@ instructions! {
     0x4E, 1,  8, LD_C_MHL => unborrow!(cpu.set_c(mem.read_u8(Addr(cpu.hl()))));
     0x0E, 2,  8, LD_C_n(value: u8) => cpu.set_c(value);
     0x56, 1,  8, LD_D_MHL => unborrow!(cpu.set_d(mem.read_u8(Addr(cpu.hl()))));
+    0x5F, 1,  4, LD_E_A => unborrow!(cpu.set_e(cpu.a()));
     0x5A, 1,  4, LD_E_D => unborrow!(cpu.set_e(cpu.d()));
     0x26, 2,  8, LD_H_n(value: u8) => cpu.set_h(value);
     0x01, 3, 12, LD_BC_nn(value: u16) => cpu.set_bc(value);
@@ -197,6 +198,7 @@ instructions! {
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xAE, 1,  8, XOR_MHL => unborrow!(cpu.xor(mem.read_u8(Addr(cpu.hl()))));
     0xA9, 1,  4, XOR_C => unborrow!(cpu.xor(cpu.c()));
+    0xEE, 2,  8, XOR_n(value: u8) => cpu.xor(value);
     0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
     0xFE, 2,  8, CP_n(value: u8) => unborrow!(cpu.compare(value));
     0x2F, 1,  4, CPL => unborrow!(cpu.set_a(cpu.a() ^ 0xFF));
