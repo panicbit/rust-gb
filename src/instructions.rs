@@ -221,6 +221,7 @@ instructions! {
     0xB6, 1,  8, OR_MHL => unborrow!(cpu.or(mem.read_u8(Addr(cpu.hl()))));
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xAE, 1,  8, XOR_MHL => unborrow!(cpu.xor(mem.read_u8(Addr(cpu.hl()))));
+    0xAF, 1,  4, XOR_A => unborrow!(cpu.xor(cpu.a()));
     0xA9, 1,  4, XOR_C => unborrow!(cpu.xor(cpu.c()));
     0xEE, 2,  8, XOR_n(value: u8) => cpu.xor(value);
     0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
