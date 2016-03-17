@@ -328,6 +328,29 @@ impl Cpu {
         self.set_flag_c(msb == 1);
     }
 
+    pub fn rotate_right_c(&mut self) {
+        let new_carry = self.c.0 & 1;
+        self.c >>= 1;
+        self.c.0 |= (self.flag_c() as u8) << 7;
+
+        unborrow!(self.rotate_right_affect_flags(self.c.0 == 0, new_carry == 1));
+    }
+
+    pub fn rotate_right_d(&mut self) {
+        let new_carry = self.d.0 & 1;
+        self.d >>= 1;
+        self.d.0 |= (self.flag_c() as u8) << 7;
+
+        unborrow!(self.rotate_right_affect_flags(self.d.0 == 0, new_carry == 1));
+    }
+
+    fn rotate_right_affect_flags(&mut self, z: bool, c: bool) {
+        self.set_flag_z(z);
+        self.set_flag_n(false);
+        self.set_flag_h(false);
+        self.set_flag_c(c);
+    }
+
     pub fn call(&mut self, mem: &mut Memory, addr: u16) {
         unborrow!(self.push_u16(mem, self.pc()));
         self.set_pc(addr);

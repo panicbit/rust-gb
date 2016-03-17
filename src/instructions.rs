@@ -207,4 +207,6 @@ instructions! {
     |cpu, mem, addr|
     // op, len, cycles
     0x38, 1,  8, SRL_B => cpu.shift_right_logical_b();
+    0x19, 1,  8, RR_C => cpu.rotate_right_c();
+    0x1A, 1,  8, RR_D => cpu.rotate_right_d();
 }
