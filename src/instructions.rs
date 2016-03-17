@@ -206,6 +206,7 @@ instructions! {
     0x0D, 1,  4, DEC_C => cpu.decr_c();
     0x25, 1,  4, DEC_H => cpu.decr_h();
     0x2D, 1,  4, DEC_L => cpu.decr_l();
+    0x35, 1,  12, DEC_MHL => cpu.decr_mhl(mem);
     0xB7, 1,  4, OR_A => unborrow!(cpu.or(cpu.a()));
     0xB0, 1,  4, OR_B => unborrow!(cpu.or(cpu.b()));
     0xB1, 1,  4, OR_C => unborrow!(cpu.or(cpu.c()));

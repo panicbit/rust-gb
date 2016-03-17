@@ -253,7 +253,7 @@ impl Cpu {
         let addr = Addr(self.hl());
         let value = mem.read_u8(addr);
         let value = value.wrapping_add(1);
-        unborrow!(self.incr_affect_flags(self.hl()));
+        unborrow!(self.incr_affect_flags(value as u16));
         mem.write_u8(addr, value);
     }
 
@@ -296,6 +296,14 @@ impl Cpu {
     pub fn decr_hl(&mut self) {
         unborrow!(self.set_hl(self.hl().wrapping_sub(1)));
         unborrow!(self.decr_affect_flags(self.hl()));
+    }
+
+    pub fn decr_mhl(&mut self, mem: &mut Memory) {
+        let addr = Addr(self.hl());
+        let value = mem.read_u8(addr);
+        let value = value.wrapping_sub(1);
+        unborrow!(self.decr_affect_flags(value as u16));
+        mem.write_u8(addr, value);
     }
 
     fn decr_affect_flags(&mut self, value: u16) {
