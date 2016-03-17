@@ -416,8 +416,7 @@ impl Cpu {
     }
 
     pub fn flag_z(&self)  -> bool {
-        //          76543210
-        self.f >= 0b10000000
+        self.f >> 7 == 1
     }
 
     pub fn set_flag_z(&mut self, set: bool) {
@@ -430,8 +429,7 @@ impl Cpu {
     }
 
     pub fn flag_n(&self)  -> bool {
-        //          76543210
-        self.f >= 0b01000000
+        (self.f >> 6) & 1 == 1
     }
 
     pub fn set_flag_n(&mut self, set: bool) {
@@ -444,8 +442,7 @@ impl Cpu {
     }
 
     pub fn flag_h(&self)  -> bool {
-        //          76543210
-        self.f >= 0b00100000
+        (self.f >> 5) & 1 == 1
     }
 
     pub fn set_flag_h(&mut self, set: bool) {
@@ -458,8 +455,7 @@ impl Cpu {
     }
 
     pub fn flag_c(&self)  -> bool {
-        //          76543210
-        self.f >= 0b00010000
+        (self.f >> 4) & 1 == 1
     }
 
     pub fn set_flag_c(&mut self, set: bool) {
