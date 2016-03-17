@@ -189,7 +189,7 @@ instructions! {
     0xC6, 2,  8, ADD_n(amount: u8) => cpu.add(amount);
     0xD6, 2,  8, SUB_n(amount: u8) => cpu.sub(amount);
     0x8A, 1,  4, ADC_D => unborrow!(cpu.add_carry(cpu.d()));
-    0xCE, 1,  8, ADC_n(amount: u8) => cpu.add_carry(amount);
+    0xCE, 2,  8, ADC_n(amount: u8) => cpu.add_carry(amount);
     0x3C, 1,  4, INC_A => cpu.incr_a();
     0x04, 1,  4, INC_B => cpu.incr_b();
     0x0C, 1,  4, INC_C => cpu.incr_c();
