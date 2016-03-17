@@ -210,6 +210,8 @@ instructions! {
     0x3D, 1,  4, DEC_A => cpu.decr_a();
     0x05, 1,  4, DEC_B => cpu.decr_b();
     0x0D, 1,  4, DEC_C => cpu.decr_c();
+    0x15, 1,  4, DEC_D => cpu.decr_d();
+    0x1D, 1,  4, DEC_E => cpu.decr_e();
     0x25, 1,  4, DEC_H => cpu.decr_h();
     0x2D, 1,  4, DEC_L => cpu.decr_l();
     0x35, 1,  12, DEC_MHL => cpu.decr_mhl(mem);
