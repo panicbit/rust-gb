@@ -365,6 +365,14 @@ impl Cpu {
         self.set_flag_c(msb == 1);
     }
 
+    pub fn rotate_right_a(&mut self) {
+        let new_carry = self.a.0 & 1;
+        self.a >>= 1;
+        self.a.0 |= (self.flag_c() as u8) << 7;
+
+        unborrow!(self.rotate_right_affect_flags(self.a.0 == 0, new_carry == 1));
+    }
+
     pub fn rotate_right_c(&mut self) {
         let new_carry = self.c.0 & 1;
         self.c >>= 1;
@@ -381,12 +389,12 @@ impl Cpu {
         unborrow!(self.rotate_right_affect_flags(self.d.0 == 0, new_carry == 1));
     }
 
-    pub fn rotate_right_a(&mut self) {
-        let new_carry = self.a.0 & 1;
-        self.a >>= 1;
-        self.a.0 |= (self.flag_c() as u8) << 7;
+    pub fn rotate_right_e(&mut self) {
+        let new_carry = self.e.0 & 1;
+        self.e >>= 1;
+        self.e.0 |= (self.flag_c() as u8) << 7;
 
-        unborrow!(self.rotate_right_affect_flags(self.a.0 == 0, new_carry == 1));
+        unborrow!(self.rotate_right_affect_flags(self.e.0 == 0, new_carry == 1));
     }
 
     fn rotate_right_affect_flags(&mut self, z: bool, c: bool) {
