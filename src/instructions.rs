@@ -144,16 +144,16 @@ instructions! {
     0x11, 3, 12, LD_DE_nn(value: u16) => cpu.set_de(value);
     0x21, 3, 12, LD_HL_nn(value: u16) => cpu.set_hl(value);
     0x31, 3, 12, LD_SP_nn(value: u16) => cpu.set_sp(value);
-    0x12, 1,  8, LD_MDE_A => mem.write_u16(Addr(cpu.de()), cpu.a() as u16);
-    0x77, 1,  8, LD_MHL_A => mem.write_u16(Addr(cpu.hl()), cpu.a() as u16);
-    0x70, 1,  8, LD_MHL_B => mem.write_u16(Addr(cpu.hl()), cpu.b() as u16);
-    0x71, 1,  8, LD_MHL_C => mem.write_u16(Addr(cpu.hl()), cpu.c() as u16);
-    0x72, 1,  8, LD_MHL_D => mem.write_u16(Addr(cpu.hl()), cpu.d() as u16);
-    0x73, 1,  8, LD_MHL_E => mem.write_u16(Addr(cpu.hl()), cpu.e() as u16);
-    0x74, 1,  8, LD_MHL_H => mem.write_u16(Addr(cpu.hl()), cpu.h() as u16);
-    0x75, 1,  8, LD_MHL_L => mem.write_u16(Addr(cpu.hl()), cpu.l() as u16);
-    0xEA, 3, 16, LD_Mnn_A(p: u16) => mem.write_u16(Addr(p), cpu.a() as u16);
-    0xE0, 2, 12, LD_Mn_A(p: u8) => mem.write_u8(Addr(0xFF00) + p as u16, cpu.a());
+    0x12, 1,  8, LD_MDE_A => mem.write_u8(Addr(cpu.de()), cpu.a());
+    0x77, 1,  8, LD_MHL_A => mem.write_u8(Addr(cpu.hl()), cpu.a());
+    0x70, 1,  8, LD_MHL_B => mem.write_u8(Addr(cpu.hl()), cpu.b());
+    0x71, 1,  8, LD_MHL_C => mem.write_u8(Addr(cpu.hl()), cpu.c());
+    0x72, 1,  8, LD_MHL_D => mem.write_u8(Addr(cpu.hl()), cpu.d());
+    0x73, 1,  8, LD_MHL_E => mem.write_u8(Addr(cpu.hl()), cpu.e());
+    0x74, 1,  8, LD_MHL_H => mem.write_u8(Addr(cpu.hl()), cpu.h());
+    0x75, 1,  8, LD_MHL_L => mem.write_u8(Addr(cpu.hl()), cpu.l());
+    0xEA, 3, 16, LD_Mnn_A(p: u16) => mem.write_u8(Addr(p), cpu.a());
+    0xE0, 2, 12, LD_Mn_A(p: u8) => mem.write_u8(Addr(0xFF00 + p as u16), cpu.a());
     0x2A, 1,  8, LDI_A_MHL => {
         let value = mem.read_u8(Addr(cpu.hl()));
         cpu.set_a(value);
