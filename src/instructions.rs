@@ -126,7 +126,7 @@ instructions! {
     0x7B, 1,  4, LD_A_E => unborrow!(cpu.set_a(cpu.e()));
     0x7C, 1,  4, LD_A_H => unborrow!(cpu.set_a(cpu.h()));
     0x7D, 1,  4, LD_A_L => unborrow!(cpu.set_a(cpu.l()));
-    0x1A, 1,  8, LD_A_DE => unborrow!(cpu.set_a(cpu.de() as u8));
+    0x1A, 1,  8, LD_A_MDE => unborrow!(cpu.set_a(mem.read_u8(Addr(cpu.de()))));
     0x7E, 1,  8, LD_A_MHL => unborrow!(cpu.set_a(mem.read_u8(Addr(cpu.hl()))));
     0x3E, 2,  8, LD_A_n(value: u8) => cpu.set_a(value);
     0xFA, 3, 16, LD_A_Mnn(p: u16) => cpu.set_a(mem.read_u8(Addr(p)));
