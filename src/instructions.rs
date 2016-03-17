@@ -199,6 +199,7 @@ instructions! {
     0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
     0xFE, 2,  8, CP_n(value: u8) => unborrow!(cpu.compare(value));
     0x2F, 1,  4, CPL => unborrow!(cpu.set_a(cpu.a() ^ 0xFF));
+    0x1F, 1,  4, RRA => cpu.rotate_right_a();
     0xCB, instr.len() + 1, instr.cycles(), Extended(instr: ExtendedInstruction) => instr.execute(cpu, mem);
 }
 

@@ -344,6 +344,14 @@ impl Cpu {
         unborrow!(self.rotate_right_affect_flags(self.d.0 == 0, new_carry == 1));
     }
 
+    pub fn rotate_right_a(&mut self) {
+        let new_carry = self.a.0 & 1;
+        self.a >>= 1;
+        self.a.0 |= (self.flag_c() as u8) << 7;
+
+        unborrow!(self.rotate_right_affect_flags(self.a.0 == 0, new_carry == 1));
+    }
+
     fn rotate_right_affect_flags(&mut self, z: bool, c: bool) {
         self.set_flag_z(z);
         self.set_flag_n(false);
