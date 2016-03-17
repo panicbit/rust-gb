@@ -101,6 +101,10 @@ impl Cpu {
         self.h = Wrapping(n);
     }
 
+    pub fn set_l(&mut self, n: u8) {
+        self.l = Wrapping(n);
+    }
+
     pub fn set_af(&mut self, n: u16) {
         Self::set_16(&mut self.a.0, &mut self.f, n);
     }
@@ -163,6 +167,16 @@ impl Cpu {
         self.set_flag_n(false);
         self.set_flag_h(0xFF - (a << 4) < (amount << 4));
         self.set_flag_c(0xFF - a < amount);
+    }
+
+    pub fn add_hl(&mut self, amount: u16) {
+        let hl = self.hl();
+        self.set_hl(hl.wrapping_add(amount));
+
+        // Z is not affected
+        self.set_flag_n(false);
+        self.set_flag_h(0xFFFF - (hl << 4) < (amount << 4));
+        self.set_flag_c(0xFFFF - hl < amount);
     }
 
     pub fn add_carry(&mut self, amount: u8) {
