@@ -224,7 +224,12 @@ instructions! {
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xAE, 1,  8, XOR_MHL => unborrow!(cpu.xor(mem.read_u8(Addr(cpu.hl()))));
     0xAF, 1,  4, XOR_A => unborrow!(cpu.xor(cpu.a()));
+    0xA8, 1,  4, XOR_B => unborrow!(cpu.xor(cpu.b()));
     0xA9, 1,  4, XOR_C => unborrow!(cpu.xor(cpu.c()));
+    0xAA, 1,  4, XOR_D => unborrow!(cpu.xor(cpu.d()));
+    0xAB, 1,  4, XOR_E => unborrow!(cpu.xor(cpu.e()));
+    0xAC, 1,  4, XOR_H => unborrow!(cpu.xor(cpu.h()));
+    0xAD, 1,  4, XOR_L => unborrow!(cpu.xor(cpu.l()));
     0xEE, 2,  8, XOR_n(value: u8) => cpu.xor(value);
     0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
     0xFE, 2,  8, CP_n(value: u8) => unborrow!(cpu.compare(value));
