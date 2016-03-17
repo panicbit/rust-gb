@@ -141,6 +141,7 @@ instructions! {
         mem.write_u8(Addr(cpu.hl()), cpu.a());
         cpu.decr_hl_without_affecting_flags();
     };
+    0xF0, 2, 12, LD_A_Mn(offset: u8) => unborrow!(cpu.set_a(mem.read_u8(Addr(0xFF00 + offset as u16))));
     0xC4, 3, 12, CALL_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.call(mem, addr) };
     0xCD, 3, 12, CALL_nn(addr: u16) => cpu.call(mem, addr);
     0xE9, 1,  4, JP_HL => unborrow!(cpu.set_pc(cpu.hl()));
