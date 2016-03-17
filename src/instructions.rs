@@ -176,6 +176,7 @@ instructions! {
     0x34, 1, 12, INC_MHL => cpu.incr_mhl(mem);
     0x05, 1,  4, DEC_B => cpu.decr_b();
     0x0D, 1,  4, DEC_C => cpu.decr_c();
+    0x2D, 1,  4, DEC_L => cpu.decr_l();
     0xB7, 1,  4, OR_A => unborrow!(cpu.or(cpu.a()));
     0xB0, 1,  4, OR_B => unborrow!(cpu.or(cpu.b()));
     0xB1, 1,  4, OR_C => unborrow!(cpu.or(cpu.c()));
