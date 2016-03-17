@@ -139,8 +139,10 @@ instructions! {
     0x56, 1,  8, LD_D_MHL => unborrow!(cpu.set_d(mem.read_u8(Addr(cpu.hl()))));
     0x5F, 1,  4, LD_E_A => unborrow!(cpu.set_e(cpu.a()));
     0x5A, 1,  4, LD_E_D => unborrow!(cpu.set_e(cpu.d()));
+    0x5D, 1,  4, LD_E_L => unborrow!(cpu.set_e(cpu.l()));
     0x26, 2,  8, LD_H_n(value: u8) => cpu.set_h(value);
     0x6F, 1,  4, LD_L_A => unborrow!(cpu.set_l(cpu.a()));
+    0x2E, 2,  8, LD_L_n(value: u8) => cpu.set_l(value);
     0x6E, 1,  8, LD_L_MHL => unborrow!(cpu.set_l(mem.read_u8(Addr(cpu.hl()))));
     0x01, 3, 12, LD_BC_nn(value: u16) => cpu.set_bc(value);
     0x11, 3, 12, LD_DE_nn(value: u16) => cpu.set_de(value);
