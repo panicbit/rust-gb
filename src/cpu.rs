@@ -318,6 +318,16 @@ impl Cpu {
         self.set_flag_c(false);
     }
 
+    pub fn shift_right_logical_b(&mut self) {
+        let msb = self.b.0 & 1;
+        self.b >>= 1;
+
+        unborrow!(self.set_flag_z(self.l() == 0));
+        self.set_flag_n(false);
+        self.set_flag_h(false);
+        self.set_flag_c(msb == 1);
+    }
+
     pub fn call(&mut self, mem: &mut Memory, addr: u16) {
         unborrow!(self.push_u16(mem, self.pc()));
         self.set_pc(addr);

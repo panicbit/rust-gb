@@ -11,7 +11,9 @@ macro_rules! replace_expr {
 }
 
 macro_rules! instructions {
-    (|$cpu:ident, $mem:ident, $addr:ident|
+    (
+        $struct_name: ident
+        |$cpu:ident, $mem:ident, $addr:ident|
         $(
             $op:expr,
             $len:expr,
@@ -22,15 +24,15 @@ macro_rules! instructions {
         $(;)*
     ) => (
         #[derive(Copy, Clone, Debug, Eq, PartialEq)]
-        pub enum Instruction {
+        pub enum $struct_name {
             $(
                 $name$(( $( $p_ty ),+ ))*
             ),*
         }
 
-        impl Instruction {
-            pub fn decode($mem: &mut Memory, $addr: Addr) -> Instruction {
-                use self::Instruction::*;
+        impl $struct_name {
+            pub fn decode($mem: &mut Memory, $addr: Addr) -> $struct_name {
+                use self::$struct_name::*;
 
                 let op = $mem.read_u8($addr);
                 let mut $addr = $addr + 1;
@@ -45,7 +47,7 @@ macro_rules! instructions {
 
             #[allow(unused_variables)]
             pub fn len(&self) -> u16 {
-                use self::Instruction::*;
+                use self::$struct_name::*;
                 match *self {
                     $(
                         $name$(( $( $p_name ),+ ))* => $len
@@ -55,7 +57,7 @@ macro_rules! instructions {
 
             #[allow(unused_variables)]
             pub fn cycles(&self) -> u16 {
-                use self::Instruction::*;
+                use self::$struct_name::*;
                 match *self {
                     $(
                         $name$(( $( $p_name ),+ ))* => $cycles
@@ -64,7 +66,7 @@ macro_rules! instructions {
             }
 
             pub fn execute(&self, $cpu: &mut Cpu, $mem: &mut Memory) {
-                use self::Instruction::*;
+                use self::$struct_name::*;
                 //println!("OP: {:?}", self);
                 match *self {
                     $(
@@ -102,7 +104,16 @@ impl Param for u16 {
     }
 }
 
+impl Param for ExtendedInstruction {
+    fn get(mem: &mut Memory, addr: &mut Addr) -> Self {
+        let instr = ExtendedInstruction::decode(mem, *addr);
+        addr.0 += instr.len();
+        instr
+    }
+}
+
 instructions! {
+    Instruction
     |cpu, mem, addr|
     // op, len, cycles
     0x00, 1,  4, NOP => {};
@@ -187,4 +198,12 @@ instructions! {
     0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
     0xFE, 2,  8, CP_n(value: u8) => unborrow!(cpu.compare(value));
     0x2F, 1,  4, CPL => unborrow!(cpu.set_a(cpu.a() ^ 0xFF));
+    0xCB, instr.len() + 1, instr.cycles(), Extended(instr: ExtendedInstruction) => instr.execute(cpu, mem);
+}
+
+instructions! {
+    ExtendedInstruction
+    |cpu, mem, addr|
+    // op, len, cycles
+    0x38, 1,  8, SRL_B => cpu.shift_right_logical_b();
 }
