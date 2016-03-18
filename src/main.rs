@@ -32,10 +32,8 @@ fn main() {
     let mut memory = Memory::new(rom);
     let mut cpu = Cpu::new();
 
-    for i in 0 .. ::std::u64::MAX {
-        //println!("Step: {}", i+1);
+    while !cpu.is_stalling {
         cpu.step(&mut memory);
-        // cpu.print_registers();
     }
 }
 

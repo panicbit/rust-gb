@@ -16,6 +16,7 @@ pub struct Cpu {
     pub h: Wrapping<u8>,
     pub l: Wrapping<u8>,
     interrupts_enabled: bool,
+    pub is_stalling: bool,
 }
 
 impl Cpu {
@@ -32,6 +33,7 @@ impl Cpu {
             h: Wrapping(0),
             l: Wrapping(0),
             interrupts_enabled: true,
+            is_stalling: false,
         }
     }
 
