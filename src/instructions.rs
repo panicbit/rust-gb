@@ -120,6 +120,7 @@ instructions! {
     0xFB, 1,  4, EI => cpu.enable_interrupts();
     0xF3, 1,  4, DI => cpu.disable_interrupts();
     0xC3, 3, 12, JP_nn(pc: u16) => cpu.set_pc(pc);
+    0x7F, 1,  4, LD_A_A => unborrow!(cpu.set_a(cpu.a()));
     0x78, 1,  4, LD_A_B => unborrow!(cpu.set_a(cpu.b()));
     0x79, 1,  4, LD_A_C => unborrow!(cpu.set_a(cpu.c()));
     0x7A, 1,  4, LD_A_D => unborrow!(cpu.set_a(cpu.d()));
