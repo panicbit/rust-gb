@@ -8,6 +8,7 @@ pub struct Memory {
     stack: [u8; 128], // 0xFF = IF
     ram: [u8; 8*1024],
     rom: Rom,
+    pub serial_line: String
 }
 
 impl Memory {
@@ -17,6 +18,7 @@ impl Memory {
             stack: [0; 128],
             ram: [0; 8*1024],
             rom: rom,
+            serial_line: String::new(),
         }
     }
 
@@ -26,7 +28,7 @@ impl Memory {
             value
         }
         use self::Location::*;
-        match Location::from_addr(*addr) {
+        let result = match Location::from_addr(*addr) {
             InterruptEnable => read_stub("IE register", *addr, 0),
             InternalRam128(offset) => self.stack[offset as usize],
             Empty => 0,
@@ -54,7 +56,7 @@ impl Memory {
             InterruptEnable => write_stub("IE register", *addr, value),
             InternalRam128(offset) => self.stack[offset as usize] = value,
             Empty => {},
-            SerialPort => panic!("STUB: Write to serial port: {}", value as char),
+            SerialPort => self.serial_log(value),
             IOStub => write_stub("I/O port write", *addr, value),
             OAM(_offset) => write_stub("OAM", *addr, value),
             InternalRam8k(offset) => self.ram[offset as usize] = value,
@@ -63,6 +65,16 @@ impl Memory {
             SwitchableRom => self.mapper.write_u8(&self.rom.data, addr, value),
             ROM0(offset) => write_stub("ROM bank #0", *addr, value),
             Stub => panic!("WRITE_STUB: 0x{:02X} ← 0x{:02X}", *addr, value)
+        }
+    }
+
+    fn serial_log(&mut self, ch: u8) {
+        let ch = ch as char;
+        if ch == '\n' {
+            println!("SERIAL OUT: {}", self.serial_line);
+            self.serial_line.clear();
+        } else {
+            self.serial_line.push(ch);
         }
     }
 
