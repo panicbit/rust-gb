@@ -156,6 +156,7 @@ impl Cpu {
     }
 
     pub fn step(&mut self, mem: &mut Memory) {
+        let last_pc = self.pc();
         let inst = Instruction::decode(mem, Addr(self.pc()));
 
         // if self.pc.0 == 0xC2C2 {
@@ -176,6 +177,10 @@ impl Cpu {
         self.pc += Wrapping(inst.len());
         let cycles = inst.cycles();
         inst.execute(self, mem);
+
+        if self.pc() == last_pc {
+            self.is_stalling = true;
+        }
 
         // if self.at_breakpoint {
             self.print_registers();
