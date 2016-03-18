@@ -17,6 +17,7 @@ pub struct Cpu {
     pub l: Wrapping<u8>,
     interrupts_enabled: bool,
     pub is_stalling: bool,
+    pub at_breakpoint: bool,
 }
 
 impl Cpu {
@@ -34,6 +35,7 @@ impl Cpu {
             l: Wrapping(0),
             interrupts_enabled: true,
             is_stalling: false,
+            at_breakpoint: false,
         }
     }
 
@@ -155,10 +157,29 @@ impl Cpu {
 
     pub fn step(&mut self, mem: &mut Memory) {
         let inst = Instruction::decode(mem, Addr(self.pc()));
+
+        // if self.pc.0 == 0xC2C2 {
+        //     self.at_breakpoint = true;
+        //     self.print_registers();
+        // }
+
         println!("{:04X} | {:?}", self.pc(), inst);
+        if self.at_breakpoint {
+            let mut cmd = String::new();
+            ::std::io::stdin().read_line(&mut cmd);
+            let cmd = cmd.trim();
+            if cmd == "c" {
+                self.at_breakpoint = false;
+            }
+        }
+
         self.pc += Wrapping(inst.len());
         let cycles = inst.cycles();
         inst.execute(self, mem);
+
+        // if self.at_breakpoint {
+            self.print_registers();
+        // }
     }
 
     pub fn add(&mut self, amount: u8) {
