@@ -44,7 +44,9 @@ impl Memory {
                 self.rom.data[offset as usize]
             }
             Stub => panic!("READ_STUB: 0x{:02X}", *addr)
-        }
+        };
+        println!("READ at 0x{:04X} = 0x{:04X}", *addr, result);
+        result
     }
 
     pub fn write_u8(&mut self, addr: Addr, value: u8) {
@@ -54,7 +56,10 @@ impl Memory {
         use self::Location::*;
         match Location::from_addr(*addr) {
             InterruptEnable => write_stub("IE register", *addr, value),
-            InternalRam128(offset) => self.stack[offset as usize] = value,
+            InternalRam128(offset) => {
+                println!("InternalRam8k[{:04X}] = {:02X}", *addr, value);
+                self.stack[offset as usize] = value
+            },
             Empty => {},
             SerialPort => self.serial_log(value),
             IOStub => write_stub("I/O port write", *addr, value),
