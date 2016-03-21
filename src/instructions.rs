@@ -285,4 +285,11 @@ instructions! {
     0x19, 1,  8, RR_C => cpu.rotate_right_c();
     0x1A, 1,  8, RR_D => cpu.rotate_right_d();
     0x1B, 1,  8, RR_E => cpu.rotate_right_e();
+    0x37, 1,  8, SWAP_A => cpu.swap_nibbles_a();
+    0x30, 1,  8, SWAP_B => cpu.swap_nibbles_b();
+    0x31, 1,  8, SWAP_C => cpu.swap_nibbles_c();
+    0x32, 1,  8, SWAP_D => cpu.swap_nibbles_d();
+    0x33, 1,  8, SWAP_E => cpu.swap_nibbles_e();
+    0x34, 1,  8, SWAP_H => cpu.swap_nibbles_h();
+    0x35, 1,  8, SWAP_L => cpu.swap_nibbles_l();
 }

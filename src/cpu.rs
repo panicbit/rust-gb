@@ -521,4 +521,50 @@ impl Cpu {
             self.f &= 0b11101111;
         }
     }
+
+    pub fn swap_nibbles_a(&mut self) {
+        unborrow!(self.set_a(swap_nibbles(self.a())));
+        unborrow!(self.swap_nibbles_affect_flags(self.a()));
+    }
+
+    pub fn swap_nibbles_b(&mut self) {
+        unborrow!(self.set_b(swap_nibbles(self.b())));
+        unborrow!(self.swap_nibbles_affect_flags(self.b()));
+    }
+
+    pub fn swap_nibbles_c(&mut self) {
+        unborrow!(self.set_c(swap_nibbles(self.c())));
+        unborrow!(self.swap_nibbles_affect_flags(self.c()));
+    }
+
+    pub fn swap_nibbles_d(&mut self) {
+        unborrow!(self.set_d(swap_nibbles(self.d())));
+        unborrow!(self.swap_nibbles_affect_flags(self.d()));
+    }
+
+    pub fn swap_nibbles_e(&mut self) {
+        unborrow!(self.set_e(swap_nibbles(self.e())));
+        unborrow!(self.swap_nibbles_affect_flags(self.e()));
+    }
+
+    pub fn swap_nibbles_h(&mut self) {
+        unborrow!(self.set_h(swap_nibbles(self.h())));
+        unborrow!(self.swap_nibbles_affect_flags(self.h()));
+    }
+
+    pub fn swap_nibbles_l(&mut self) {
+        unborrow!(self.set_l(swap_nibbles(self.l())));
+        unborrow!(self.swap_nibbles_affect_flags(self.l()));
+    }
+
+    pub fn swap_nibbles_affect_flags(&mut self, value: u8) {
+        self.set_flag_z(value == 0);
+        self.set_flag_n(false);
+        self.set_flag_h(false);
+        self.set_flag_c(false);
+    }
+}
+
+fn swap_nibbles(value: u8) -> u8 {
+    (value << 4) | (value >> 4)
 }
