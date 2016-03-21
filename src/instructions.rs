@@ -217,7 +217,8 @@ instructions! {
     0xC2, 3, 12, JP_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.set_pc(addr) };
     0x18, 2,  8, JR_n(offset: i8) => cpu.jump_routine(offset);
     0x20, 2,  8, JR_NZ_n(offset: i8) => if !cpu.flag_z() { cpu.jump_routine(offset) };
-    0x28, 2,  8, JR_Z(offset: i8) => if cpu.flag_z() { cpu.jump_routine(offset) };
+    0x28, 2,  8, JR_Z_n(offset: i8) => if cpu.flag_z() { cpu.jump_routine(offset) };
+    0x38, 2,  8, JR_C_n(offset: i8) => if cpu.flag_c() { cpu.jump_routine(offset) };
     0x30, 2,  8, JR_NC(offset: i8) => if !cpu.flag_c() { cpu.jump_routine(offset) };
     0xC9, 1,  8, RET => unborrow!(cpu.set_pc(cpu.pop_u16(mem)));
     0xC8, 1,  8, RET_Z => if cpu.flag_z() { RET.execute(cpu, mem) };
