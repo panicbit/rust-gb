@@ -22,7 +22,7 @@ use self::rom::*;
 use self::memory::*;
 
 fn main() {
-    let rom = Rom::load("./gb-tests/cpu_instrs/individual/06-ld r,r.gb").expect("rom");
+    let rom = Rom::load("./gb-tests/cpu_instrs/individual/09-op r,r.gb").expect("rom");
 
     print_logo(logo(&rom.data));
     println!("Rom type: {:?}", rom.typ());
