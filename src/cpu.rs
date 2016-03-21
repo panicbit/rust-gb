@@ -563,6 +563,12 @@ impl Cpu {
         self.set_flag_h(false);
         self.set_flag_c(false);
     }
+
+    pub fn set_carry_flag(&mut self) {
+        self.set_flag_n(false);
+        self.set_flag_h(false);
+        self.set_flag_c(true);
+    }
 }
 
 fn swap_nibbles(value: u8) -> u8 {
