@@ -444,6 +444,16 @@ impl Cpu {
         self.set_flag_c(c);
     }
 
+    pub fn rotate_left_carry(&mut self) {
+        let new_carry = (self.a.0 >> 7) & 1;
+        self.a.0 = self.a.0.rotate_left(1);
+
+        unborrow!(self.set_flag_z(self.a.0 == 0));
+        self.set_flag_n(false);
+        self.set_flag_h(false);
+        self.set_flag_c(new_carry == 1);
+    }
+
     pub fn call(&mut self, mem: &mut Memory, addr: u16) {
         unborrow!(self.push_u16(mem, self.pc()));
         self.set_pc(addr);

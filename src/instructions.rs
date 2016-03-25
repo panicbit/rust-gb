@@ -320,6 +320,7 @@ instructions! {
     0xBD, 1,  4, CP_L => unborrow!(cpu.compare(cpu.l()));
     0xFE, 2,  8, CP_n(value: u8) => unborrow!(cpu.compare(value));
     0x2F, 1,  4, CPL => unborrow!(cpu.set_a(cpu.a() ^ 0xFF));
+    0x07, 1,  4, RLCA => cpu.rotate_left_carry();
     0x1F, 1,  4, RRA => cpu.rotate_right_a();
     0x37, 1,  4, SCF => cpu.set_carry_flag();
     0x3F, 1,  4, CCF => cpu.complement_carry_flag();
