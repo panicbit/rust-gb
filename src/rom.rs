@@ -34,6 +34,7 @@ impl Rom {
 }
 
 custom_derive! {
+    #[allow(non_camel_case_types)]
     #[derive(TryFrom(u8),Debug, Eq, PartialEq, Ord, PartialOrd)]
     pub enum Type {
         Rom                   = 0x00,
@@ -63,6 +64,7 @@ custom_derive! {
 }
 
 custom_derive! {
+    #[allow(non_camel_case_types)]
     #[derive(TryFrom(u8),Debug, Eq, PartialEq, Ord, PartialOrd)]
     pub enum RomSize {
         Kb32  = 0x00,

@@ -23,6 +23,7 @@ macro_rules! instructions {
         );+
         $(;)*
     ) => (
+        #[allow(non_camel_case_types)]
         #[derive(Copy, Clone, Debug, Eq, PartialEq)]
         pub enum $struct_name {
             $(
