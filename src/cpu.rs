@@ -477,6 +477,16 @@ impl Cpu {
         ));
     }
 
+    pub fn rotate_right_carry_a(&mut self) {
+        let new_carry = self.a.0 & 1;
+        self.a.0 = self.a.0.rotate_right(1);
+
+        unborrow!(self.rotate_affect_flags(
+            self.a.0 == 0, // Z
+            new_carry == 1 // C
+        ));
+    }
+
     pub fn call(&mut self, mem: &mut Memory, addr: u16) {
         unborrow!(self.push_u16(mem, self.pc()));
         self.set_pc(addr);
