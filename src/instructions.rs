@@ -244,7 +244,13 @@ instructions! {
     0x29, 1,  8, ADD_HL_HL => unborrow!(cpu.add_hl(cpu.hl()));
     0xC6, 2,  8, ADD_n(amount: u8) => cpu.add(amount);
     0xD6, 2,  8, SUB_n(amount: u8) => cpu.sub(amount);
+    0x8F, 1,  4, ADC_A => unborrow!(cpu.add_carry(cpu.a()));
+    0x88, 1,  4, ADC_B => unborrow!(cpu.add_carry(cpu.b()));
+    0x89, 1,  4, ADC_C => unborrow!(cpu.add_carry(cpu.c()));
     0x8A, 1,  4, ADC_D => unborrow!(cpu.add_carry(cpu.d()));
+    0x8B, 1,  4, ADC_E => unborrow!(cpu.add_carry(cpu.e()));
+    0x8C, 1,  4, ADC_H => unborrow!(cpu.add_carry(cpu.h()));
+    0x8D, 1,  4, ADC_L => unborrow!(cpu.add_carry(cpu.l()));
     0xCE, 2,  8, ADC_n(amount: u8) => cpu.add_carry(amount);
     0x3C, 1,  4, INC_A => cpu.incr_a();
     0x04, 1,  4, INC_B => cpu.incr_b();
