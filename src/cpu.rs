@@ -226,6 +226,15 @@ impl Cpu {
         self.set_flag_c(a < amount);
     }
 
+    pub fn sub_carry(&mut self, amount: u8) {
+        let carry = self.f() >> 4 & 0b1;
+        self.sub(amount);
+        let f = self.f();
+        self.sub(carry);
+        unborrow!(self.set_f(f | self.f()));
+        unborrow!(self.set_flag_z(self.a() == 0));
+    }
+
     pub fn compare(&mut self, value: u8) {
         let a = self.a();
         unborrow!(self.set_flag_z(a == value));
