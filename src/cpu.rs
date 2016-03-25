@@ -213,6 +213,7 @@ impl Cpu {
         let f = self.f();
         self.add(carry);
         unborrow!(self.set_f(f | self.f()));
+        // check if final result is zero
         unborrow!(self.set_flag_z(self.a() == 0));
     }
 
@@ -232,6 +233,7 @@ impl Cpu {
         let f = self.f();
         self.sub(carry);
         unborrow!(self.set_f(f | self.f()));
+        // check if final result is zero
         unborrow!(self.set_flag_z(self.a() == 0));
     }
 
