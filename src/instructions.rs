@@ -260,6 +260,10 @@ instructions! {
     0xB7, 1,  4, OR_A => unborrow!(cpu.or(cpu.a()));
     0xB0, 1,  4, OR_B => unborrow!(cpu.or(cpu.b()));
     0xB1, 1,  4, OR_C => unborrow!(cpu.or(cpu.c()));
+    0xB2, 1,  4, OR_D => unborrow!(cpu.or(cpu.d()));
+    0xB3, 1,  4, OR_E => unborrow!(cpu.or(cpu.e()));
+    0xB4, 1,  4, OR_H => unborrow!(cpu.or(cpu.h()));
+    0xB5, 1,  4, OR_L => unborrow!(cpu.or(cpu.l()));
     0xB6, 1,  8, OR_MHL => unborrow!(cpu.or(mem.read_u8(Addr(cpu.hl()))));
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xAE, 1,  8, XOR_MHL => unborrow!(cpu.xor(mem.read_u8(Addr(cpu.hl()))));
