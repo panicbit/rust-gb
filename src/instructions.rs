@@ -294,6 +294,13 @@ instructions! {
     0xB4, 1,  4, OR_H => unborrow!(cpu.or(cpu.h()));
     0xB5, 1,  4, OR_L => unborrow!(cpu.or(cpu.l()));
     0xB6, 1,  8, OR_MHL => unborrow!(cpu.or(mem.read_u8(Addr(cpu.hl()))));
+    0xA7, 1,  4, AND_A => unborrow!(cpu.and(cpu.a()));
+    0xA0, 1,  4, AND_B => unborrow!(cpu.and(cpu.b()));
+    0xA1, 1,  4, AND_C => unborrow!(cpu.and(cpu.c()));
+    0xA2, 1,  4, AND_D => unborrow!(cpu.and(cpu.d()));
+    0xA3, 1,  4, AND_E => unborrow!(cpu.and(cpu.e()));
+    0xA4, 1,  4, AND_H => unborrow!(cpu.and(cpu.h()));
+    0xA5, 1,  4, AND_L => unborrow!(cpu.and(cpu.l()));
     0xE6, 2,  8, AND_n(value: u8) => cpu.and(value);
     0xAE, 1,  8, XOR_MHL => unborrow!(cpu.xor(mem.read_u8(Addr(cpu.hl()))));
     0xAF, 1,  4, XOR_A => unborrow!(cpu.xor(cpu.a()));
