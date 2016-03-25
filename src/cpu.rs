@@ -213,6 +213,7 @@ impl Cpu {
         let f = self.f();
         self.add(carry);
         unborrow!(self.set_f(f | self.f()));
+        unborrow!(self.set_flag_z(self.a() == 0));
     }
 
     pub fn sub(&mut self, amount: u8) {
