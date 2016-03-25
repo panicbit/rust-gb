@@ -444,7 +444,7 @@ impl Cpu {
         self.set_flag_c(c);
     }
 
-    pub fn rotate_left_carry(&mut self) {
+    pub fn rotate_left_carry_a(&mut self) {
         let new_carry = (self.a.0 >> 7) & 1;
         self.a.0 = self.a.0.rotate_left(1);
 
