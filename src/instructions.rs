@@ -41,7 +41,7 @@ macro_rules! instructions {
                     $(
                         $op => $name$(( $( replace_expr!($p_name Param::get($mem, &mut $addr)) ),+ ))*
                     ),*,
-                    op => panic!("opcode 0x{:02X}", op)
+                    op => panic!(concat!(stringify!($struct_name), " 0x{:02X}"), op)
                 }
             }
 
