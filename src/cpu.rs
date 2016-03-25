@@ -171,6 +171,11 @@ impl Cpu {
         self.sp = Wrapping(sp);
     }
 
+    pub fn load<R1: Reg8, R2: Reg8>(&mut self) {
+        let r2 = self.get::<R2>();
+        self.set::<R1>(r2);
+    }
+
     pub fn push_u8(&mut self, mem: &mut Memory, value: u8) {
         self.sp -= Wrapping(1);
         mem.write_u8(Addr(self.sp()), value);
