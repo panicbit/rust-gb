@@ -202,15 +202,15 @@ instructions! {
     0x2A, 1,  8, LDI_A_MHL => {
         let value = mem.read_u8(Addr(cpu.hl()));
         cpu.set_a(value);
-        cpu.incr_hl_without_affecting_flags();
+        cpu.increment_hl_without_affecting_flags();
     };
     0x22, 1,  8, LDI_MHL_A => {
         mem.write_u8(Addr(cpu.hl()), cpu.a());
-        cpu.incr_hl_without_affecting_flags();
+        cpu.increment_hl_without_affecting_flags();
     };
     0x32, 1,  8, LDD_MHL_A => {
         mem.write_u8(Addr(cpu.hl()), cpu.a());
-        cpu.decr_hl_without_affecting_flags();
+        cpu.decrement_hl_without_affecting_flags();
     };
     0xF0, 2, 12, LD_A_Mn(offset: u8) => unborrow!(cpu.set_a(mem.read_u8(Addr(0xFF00 + offset as u16))));
     0xC4, 3, 12, CALL_NZ_nn(addr: u16) => if !cpu.flag_z() { cpu.call(mem, addr) };
@@ -275,10 +275,10 @@ instructions! {
     0x1C, 1,  4, INC_E => cpu.increment::<E>();
     0x24, 1,  4, INC_H => cpu.increment::<H>();
     0x2C, 1,  4, INC_L => cpu.increment::<L>();
-    0x03, 1,  8, INC_BC => cpu.incr_bc();
-    0x13, 1,  8, INC_DE => cpu.incr_de();
-    0x23, 1,  8, INC_HL => cpu.incr_hl();
-    0x34, 1, 12, INC_MHL => cpu.incr_mhl(mem);
+    0x03, 1,  8, INC_BC => cpu.increment_bc();
+    0x13, 1,  8, INC_DE => cpu.increment_de();
+    0x23, 1,  8, INC_HL => cpu.increment_hl();
+    0x34, 1, 12, INC_MHL => cpu.increment_mhl(mem);
     0x3D, 1,  4, DEC_A => cpu.decrement::<A>();
     0x05, 1,  4, DEC_B => cpu.decrement::<B>();
     0x0D, 1,  4, DEC_C => cpu.decrement::<C>();
@@ -286,7 +286,7 @@ instructions! {
     0x1D, 1,  4, DEC_E => cpu.decrement::<E>();
     0x25, 1,  4, DEC_H => cpu.decrement::<H>();
     0x2D, 1,  4, DEC_L => cpu.decrement::<L>();
-    0x35, 1,  12, DEC_MHL => cpu.decr_mhl(mem);
+    0x35, 1,  12, DEC_MHL => cpu.decrement_mhl(mem);
     0xB7, 1,  4, OR_A => unborrow!(cpu.or(cpu.a()));
     0xB0, 1,  4, OR_B => unborrow!(cpu.or(cpu.b()));
     0xB1, 1,  4, OR_C => unborrow!(cpu.or(cpu.c()));

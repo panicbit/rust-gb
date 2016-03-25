@@ -295,38 +295,38 @@ impl Cpu {
         self.set_flag_h(r & 0x0F == 0);
     }
 
-    pub fn incr_bc(&mut self) {
+    pub fn increment_bc(&mut self) {
         unborrow!(self.set_bc(self.bc().wrapping_add(1)));
-        unborrow!(self.incr_affect_flags(self.bc()));
+        unborrow!(self.increment_affect_flags(self.bc()));
     }
 
-    pub fn incr_de(&mut self) {
+    pub fn increment_de(&mut self) {
         unborrow!(self.set_de(self.de().wrapping_add(1)));
-        unborrow!(self.incr_affect_flags(self.de()));
+        unborrow!(self.increment_affect_flags(self.de()));
     }
 
-    pub fn incr_hl(&mut self) {
+    pub fn increment_hl(&mut self) {
         unborrow!(self.set_hl(self.hl().wrapping_add(1)));
-        unborrow!(self.incr_affect_flags(self.hl()));
+        unborrow!(self.increment_affect_flags(self.hl()));
     }
 
-    pub fn incr_hl_without_affecting_flags(&mut self) {
+    pub fn increment_hl_without_affecting_flags(&mut self) {
         unborrow!(self.set_hl(self.hl().wrapping_add(1)));
     }
 
-    pub fn decr_hl_without_affecting_flags(&mut self) {
+    pub fn decrement_hl_without_affecting_flags(&mut self) {
         unborrow!(self.set_hl(self.hl().wrapping_sub(1)));
     }
 
-    pub fn incr_mhl(&mut self, mem: &mut Memory) {
+    pub fn increment_mhl(&mut self, mem: &mut Memory) {
         let addr = Addr(self.hl());
         let value = mem.read_u8(addr);
         let value = value.wrapping_add(1);
-        unborrow!(self.incr_affect_flags(value as u16));
+        unborrow!(self.increment_affect_flags(value as u16));
         mem.write_u8(addr, value);
     }
 
-    fn incr_affect_flags(&mut self, value: u16) {
+    fn increment_affect_flags(&mut self, value: u16) {
         self.set_flag_z(value == 0);
         self.set_flag_n(false);
         self.set_flag_h(value & 0xF == 0);
@@ -344,20 +344,20 @@ impl Cpu {
         self.set_flag_h(r & 0xF == 0xF);
     }
 
-    pub fn decr_hl(&mut self) {
+    pub fn decrement_hl(&mut self) {
         unborrow!(self.set_hl(self.hl().wrapping_sub(1)));
-        unborrow!(self.decr_affect_flags(self.hl()));
+        unborrow!(self.decrement_affect_flags(self.hl()));
     }
 
-    pub fn decr_mhl(&mut self, mem: &mut Memory) {
+    pub fn decrement_mhl(&mut self, mem: &mut Memory) {
         let addr = Addr(self.hl());
         let value = mem.read_u8(addr);
         let value = value.wrapping_sub(1);
-        unborrow!(self.decr_affect_flags(value as u16));
+        unborrow!(self.decrement_affect_flags(value as u16));
         mem.write_u8(addr, value);
     }
 
-    fn decr_affect_flags(&mut self, value: u16) {
+    fn decrement_affect_flags(&mut self, value: u16) {
         self.set_flag_z(value == 0);
         self.set_flag_n(true);
         self.set_flag_h(value & 0xF == 0xF);
