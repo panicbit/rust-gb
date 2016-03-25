@@ -332,39 +332,16 @@ impl Cpu {
         self.set_flag_h(value & 0xF == 0);
     }
 
-    pub fn decr_a(&mut self) {
-        self.a -= Wrapping(1);
-        unborrow!(self.decr_affect_flags(self.a() as u16));
-    }
+    pub fn decrement<R: Reg8>(&mut self) {
+        let mut r = self.get::<R>();
+        r -= Wrapping(1);
+        self.set::<R>(r);
 
-    pub fn decr_b(&mut self) {
-        self.b -= Wrapping(1);
-        unborrow!(self.decr_affect_flags(self.b() as u16));
-    }
-
-    pub fn decr_c(&mut self) {
-        self.c -= Wrapping(1);
-        unborrow!(self.decr_affect_flags(self.c() as u16));
-    }
-
-    pub fn decr_d(&mut self) {
-        self.d -= Wrapping(1);
-        unborrow!(self.decr_affect_flags(self.d() as u16));
-    }
-
-    pub fn decr_e(&mut self) {
-        self.e -= Wrapping(1);
-        unborrow!(self.decr_affect_flags(self.e() as u16));
-    }
-
-    pub fn decr_h(&mut self) {
-        self.h -= Wrapping(1);
-        unborrow!(self.decr_affect_flags(self.h() as u16));
-    }
-
-    pub fn decr_l(&mut self) {
-        self.l -= Wrapping(1);
-        unborrow!(self.decr_affect_flags(self.l() as u16));
+        // Update flags
+        let r = r.0;
+        self.set_flag_z(r == 0);
+        self.set_flag_n(true);
+        self.set_flag_h(r & 0xF == 0xF);
     }
 
     pub fn decr_hl(&mut self) {
