@@ -1,5 +1,6 @@
 use byteorder::{ByteOrder, LittleEndian};
 use cpu::Cpu;
+use cpu::registers::*;
 use bit_range::BitRange;
 use memory::*;
 
@@ -267,13 +268,13 @@ instructions! {
     0x9C, 1,  4, SBC_H => unborrow!(cpu.sub_carry(cpu.h()));
     0x9D, 1,  4, SBC_L => unborrow!(cpu.sub_carry(cpu.l()));
     0xDE, 2,  8, SBC_n(amount: u8) => cpu.sub_carry(amount);
-    0x3C, 1,  4, INC_A => cpu.incr_a();
-    0x04, 1,  4, INC_B => cpu.incr_b();
-    0x0C, 1,  4, INC_C => cpu.incr_c();
-    0x14, 1,  4, INC_D => cpu.incr_d();
-    0x1C, 1,  4, INC_E => cpu.incr_e();
-    0x24, 1,  4, INC_H => cpu.incr_h();
-    0x2C, 1,  4, INC_L => cpu.incr_l();
+    0x3C, 1,  4, INC_A => cpu.increment::<A>();
+    0x04, 1,  4, INC_B => cpu.increment::<B>();
+    0x0C, 1,  4, INC_C => cpu.increment::<C>();
+    0x14, 1,  4, INC_D => cpu.increment::<D>();
+    0x1C, 1,  4, INC_E => cpu.increment::<E>();
+    0x24, 1,  4, INC_H => cpu.increment::<H>();
+    0x2C, 1,  4, INC_L => cpu.increment::<L>();
     0x03, 1,  8, INC_BC => cpu.incr_bc();
     0x13, 1,  8, INC_DE => cpu.incr_de();
     0x23, 1,  8, INC_HL => cpu.incr_hl();

@@ -2,6 +2,39 @@ use std::num::Wrapping;
 use instructions::Instruction;
 use memory::*;
 
+macro_rules! reg8 {
+    ($R:ident => $r:ident) => (
+        pub enum $R {}
+        impl Reg8 for $R {
+            fn get(cpu: &Cpu) -> Wrapping<u8> {
+                cpu.$r
+            }
+            fn set(cpu: &mut Cpu, value: Wrapping<u8>) {
+                cpu.$r = value
+            }
+        }
+    )
+}
+
+pub mod registers {
+    use std::num::Wrapping;
+    use super::Cpu;
+    use super::Reg8;
+    reg8!(A => a);
+    reg8!(B => b);
+    reg8!(C => c);
+    reg8!(D => d);
+    reg8!(E => e);
+    reg8!(H => h);
+    reg8!(L => l);
+}
+use self::registers::*;
+
+trait Reg8 {
+    fn get(cpu: &Cpu) -> Wrapping<u8>;
+    fn set(cpu: &mut Cpu, value: Wrapping<u8>);
+}
+
 pub struct Cpu {
     pub pc: Wrapping<u16>,
     pub sp: Wrapping<u16>,
@@ -39,6 +72,7 @@ impl Cpu {
         }
     }
 
+    pub fn get<R: Reg8>(&self) -> Wrapping<u8> { R::get(self) }
     pub fn a(&self) -> u8 { self.a.0 }
     pub fn b(&self) -> u8 { self.b.0 }
     pub fn c(&self) -> u8 { self.c.0 }
@@ -75,6 +109,10 @@ impl Cpu {
     fn set_16(high: &mut u8, low: &mut u8, n: u16) {
         *high = (n >> 8) as u8;
         *low = n as u8;
+    }
+
+    pub fn set<R: Reg8>(&mut self, n: Wrapping<u8>) {
+        R::set(self, n);
     }
 
     pub fn set_a(&mut self, n: u8) {
@@ -245,39 +283,16 @@ impl Cpu {
         self.set_flag_c(a < value);
     }
 
-    pub fn incr_a(&mut self) {
-        self.a += Wrapping(1);
-        unborrow!(self.incr_affect_flags(self.a() as u16));
-    }
+    pub fn increment<R: Reg8>(&mut self) {
+        let mut r = self.get::<R>();
+        r += Wrapping(1);
+        self.set::<R>(r);
 
-    pub fn incr_b(&mut self) {
-        self.b += Wrapping(1);
-        unborrow!(self.incr_affect_flags(self.b() as u16));
-    }
-
-    pub fn incr_c(&mut self) {
-        self.c += Wrapping(1);
-        unborrow!(self.incr_affect_flags(self.c() as u16));
-    }
-
-    pub fn incr_d(&mut self) {
-        self.d += Wrapping(1);
-        unborrow!(self.incr_affect_flags(self.d() as u16));
-    }
-
-    pub fn incr_e(&mut self) {
-        self.e += Wrapping(1);
-        unborrow!(self.incr_affect_flags(self.e() as u16));
-    }
-
-    pub fn incr_h(&mut self) {
-        self.h += Wrapping(1);
-        unborrow!(self.incr_affect_flags(self.h() as u16));
-    }
-
-    pub fn incr_l(&mut self) {
-        self.l += Wrapping(1);
-        unborrow!(self.incr_affect_flags(self.l() as u16));
+        // Update flags
+        let r = r.0;
+        self.set_flag_z(r == 0);
+        self.set_flag_n(false);
+        self.set_flag_h(r & 0x0F == 0);
     }
 
     pub fn incr_bc(&mut self) {
