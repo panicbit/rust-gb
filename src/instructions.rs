@@ -233,6 +233,13 @@ instructions! {
     0xC1, 1, 12, POP_BC => unborrow!(cpu.set_bc(cpu.pop_u16(mem)));
     0xD1, 1, 12, POP_DE => unborrow!(cpu.set_de(cpu.pop_u16(mem)));
     0xE1, 1, 12, POP_HL => unborrow!(cpu.set_hl(cpu.pop_u16(mem)));
+    0x87, 1,  4, ADD_A => unborrow!(cpu.add(cpu.a()));
+    0x80, 1,  4, ADD_B => unborrow!(cpu.add(cpu.b()));
+    0x81, 1,  4, ADD_C => unborrow!(cpu.add(cpu.c()));
+    0x82, 1,  4, ADD_D => unborrow!(cpu.add(cpu.d()));
+    0x83, 1,  4, ADD_E => unborrow!(cpu.add(cpu.e()));
+    0x84, 1,  4, ADD_H => unborrow!(cpu.add(cpu.h()));
+    0x85, 1,  4, ADD_L => unborrow!(cpu.add(cpu.l()));
     0x29, 1,  8, ADD_HL_HL => unborrow!(cpu.add_hl(cpu.hl()));
     0xC6, 2,  8, ADD_n(amount: u8) => cpu.add(amount);
     0xD6, 2,  8, SUB_n(amount: u8) => cpu.sub(amount);
