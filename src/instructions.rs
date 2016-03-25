@@ -275,7 +275,13 @@ instructions! {
     0xAC, 1,  4, XOR_H => unborrow!(cpu.xor(cpu.h()));
     0xAD, 1,  4, XOR_L => unborrow!(cpu.xor(cpu.l()));
     0xEE, 2,  8, XOR_n(value: u8) => cpu.xor(value);
+    0xBF, 1,  4, CP_A => unborrow!(cpu.compare(cpu.a()));
+    0xB8, 1,  4, CP_B => unborrow!(cpu.compare(cpu.b()));
     0xB9, 1,  4, CP_C => unborrow!(cpu.compare(cpu.c()));
+    0xBA, 1,  4, CP_D => unborrow!(cpu.compare(cpu.d()));
+    0xBB, 1,  4, CP_E => unborrow!(cpu.compare(cpu.e()));
+    0xBC, 1,  4, CP_H => unborrow!(cpu.compare(cpu.h()));
+    0xBD, 1,  4, CP_L => unborrow!(cpu.compare(cpu.l()));
     0xFE, 2,  8, CP_n(value: u8) => unborrow!(cpu.compare(value));
     0x2F, 1,  4, CPL => unborrow!(cpu.set_a(cpu.a() ^ 0xFF));
     0x1F, 1,  4, RRA => cpu.rotate_right_a();
