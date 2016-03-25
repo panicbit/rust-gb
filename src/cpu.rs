@@ -410,7 +410,10 @@ impl Cpu {
         self.a >>= 1;
         self.a.0 |= (self.flag_c() as u8) << 7;
 
-        unborrow!(self.rotate_right_affect_flags(self.a.0 == 0, new_carry == 1));
+        unborrow!(self.rotate_affect_flags(
+            self.a.0 == 0, // Z
+            new_carry == 1 // C
+        ));
     }
 
     pub fn rotate_right_c(&mut self) {
@@ -418,7 +421,10 @@ impl Cpu {
         self.c >>= 1;
         self.c.0 |= (self.flag_c() as u8) << 7;
 
-        unborrow!(self.rotate_right_affect_flags(self.c.0 == 0, new_carry == 1));
+        unborrow!(self.rotate_affect_flags(
+            self.c.0 == 0, // Z
+            new_carry == 1 // C
+        ));
     }
 
     pub fn rotate_right_d(&mut self) {
@@ -426,7 +432,10 @@ impl Cpu {
         self.d >>= 1;
         self.d.0 |= (self.flag_c() as u8) << 7;
 
-        unborrow!(self.rotate_right_affect_flags(self.d.0 == 0, new_carry == 1));
+        unborrow!(self.rotate_affect_flags(
+            self.d.0 == 0, // Z
+            new_carry == 1 // C
+        ));
     }
 
     pub fn rotate_right_e(&mut self) {
@@ -434,10 +443,13 @@ impl Cpu {
         self.e >>= 1;
         self.e.0 |= (self.flag_c() as u8) << 7;
 
-        unborrow!(self.rotate_right_affect_flags(self.e.0 == 0, new_carry == 1));
+        unborrow!(self.rotate_affect_flags(
+            self.e.0 == 0, // Z
+            new_carry == 1 // C
+        ));
     }
 
-    fn rotate_right_affect_flags(&mut self, z: bool, c: bool) {
+    fn rotate_affect_flags(&mut self, z: bool, c: bool) {
         self.set_flag_z(z);
         self.set_flag_n(false);
         self.set_flag_h(false);
@@ -448,10 +460,10 @@ impl Cpu {
         let new_carry = (self.a.0 >> 7) & 1;
         self.a.0 = self.a.0.rotate_left(1);
 
-        unborrow!(self.set_flag_z(self.a.0 == 0));
-        self.set_flag_n(false);
-        self.set_flag_h(false);
-        self.set_flag_c(new_carry == 1);
+        unborrow!(self.rotate_affect_flags(
+            self.a.0 == 0, // Z
+            new_carry == 1 // C
+        ));
     }
 
     pub fn call(&mut self, mem: &mut Memory, addr: u16) {
