@@ -12,6 +12,7 @@ mod instructions;
 mod memory;
 mod rom;
 mod mapper;
+mod util;
 
 use self::header::*;
 use self::cpu::*;

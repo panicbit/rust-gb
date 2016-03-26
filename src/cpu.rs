@@ -1,6 +1,7 @@
 use std::num::Wrapping;
 use instructions::Instruction;
 use memory::*;
+use util::IntoWrapping;
 
 macro_rules! reg8 {
     ($R:ident => $r:ident) => (
@@ -9,8 +10,8 @@ macro_rules! reg8 {
             fn get(cpu: &Cpu) -> Wrapping<u8> {
                 cpu.$r
             }
-            fn set(cpu: &mut Cpu, value: Wrapping<u8>) {
-                cpu.$r = value
+            fn set<V: IntoWrapping<u8>>(cpu: &mut Cpu, value: V) {
+                cpu.$r = value.into_wrapping();
             }
         }
     )
@@ -18,6 +19,7 @@ macro_rules! reg8 {
 
 pub mod registers {
     use std::num::Wrapping;
+    use util::IntoWrapping;
     use super::Cpu;
     use super::Reg8;
     reg8!(A => a);
@@ -32,7 +34,7 @@ use self::registers::*;
 
 trait Reg8 {
     fn get(cpu: &Cpu) -> Wrapping<u8>;
-    fn set(cpu: &mut Cpu, value: Wrapping<u8>);
+    fn set<V: IntoWrapping<u8>>(cpu: &mut Cpu, value: V);
 }
 
 pub struct Cpu {
