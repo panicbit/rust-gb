@@ -466,12 +466,15 @@ impl Cpu {
         self.set_flag_c(c);
     }
 
-    pub fn rotate_left_carry_a(&mut self) {
-        let new_carry = (self.a.0 >> 7) & 1;
-        self.a.0 = self.a.0.rotate_left(1);
+    pub fn rotate_left_carry<R: Reg8>(&mut self) {
+        let r = self.get::<R>();
+        let new_carry = (r.0 >> 7) & 1;
+        R::set(self, r.0.rotate_left(1));
 
+        // update flags
+        let r = r.0;
         unborrow!(self.rotate_affect_flags(
-            self.a.0 == 0, // Z
+            r == 0,        // Z
             new_carry == 1 // C
         ));
     }
