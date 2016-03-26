@@ -448,13 +448,17 @@ impl Cpu {
         ));
     }
 
-    pub fn rotate_left_a(&mut self) {
-        let new_carry = (self.a.0 >> 7) & 1;
-        self.a <<= 1;
-        self.a.0 |= (self.flag_c() as u8) >> 7;
+    pub fn rotate_left<R: Reg8>(&mut self) {
+        let mut r = self.get::<R>();
+        let new_carry = (r.0 >> 7) & 1;
+        r.0 <<= 1;
+        r.0 |= (self.flag_c() as u8) >> 7;
+        self.set::<R>(r);
 
+        // update flags
+        let r = r.0;
         unborrow!(self.rotate_affect_flags(
-            self.a.0 == 0, // Z
+            r == 0,        // Z
             new_carry == 1 // C
         ));
     }
