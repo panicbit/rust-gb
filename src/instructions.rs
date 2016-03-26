@@ -341,6 +341,13 @@ instructions! {
     0x03, 1,  8, RLC_E => cpu.rotate_left_carry::<E>();
     0x04, 1,  8, RLC_H => cpu.rotate_left_carry::<H>();
     0x05, 1,  8, RLC_L => cpu.rotate_left_carry::<L>();
+    0x0F, 1,  8, RRC_A => cpu.rotate_right_carry::<A>();
+    0x08, 1,  8, RRC_B => cpu.rotate_right_carry::<B>();
+    0x09, 1,  8, RRC_C => cpu.rotate_right_carry::<C>();
+    0x0A, 1,  8, RRC_D => cpu.rotate_right_carry::<D>();
+    0x0B, 1,  8, RRC_E => cpu.rotate_right_carry::<E>();
+    0x0C, 1,  8, RRC_H => cpu.rotate_right_carry::<H>();
+    0x0D, 1,  8, RRC_L => cpu.rotate_right_carry::<L>();
     0x38, 1,  8, SRL_B => cpu.shift_right_logical_b();
     0x19, 1,  8, RR_C => cpu.rotate_right_c();
     0x1A, 1,  8, RR_D => cpu.rotate_right_d();
