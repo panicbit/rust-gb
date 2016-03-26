@@ -334,6 +334,13 @@ instructions! {
     ExtendedInstruction
     |cpu, mem, addr|
     // op, len, cycles
+    0x17, 1,  8, RL_A => cpu.rotate_left::<A>();
+    0x10, 1,  8, RL_B => cpu.rotate_left::<B>();
+    0x11, 1,  8, RL_C => cpu.rotate_left::<C>();
+    0x12, 1,  8, RL_D => cpu.rotate_left::<D>();
+    0x13, 1,  8, RL_E => cpu.rotate_left::<E>();
+    0x14, 1,  8, RL_H => cpu.rotate_left::<H>();
+    0x15, 1,  8, RL_L => cpu.rotate_left::<L>();
     0x07, 1,  8, RLC_A => cpu.rotate_left_carry::<A>();
     0x00, 1,  8, RLC_B => cpu.rotate_left_carry::<B>();
     0x01, 1,  8, RLC_C => cpu.rotate_left_carry::<C>();
