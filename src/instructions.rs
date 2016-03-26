@@ -323,7 +323,7 @@ instructions! {
     0x2F, 1,  4, CPL => unborrow!(cpu.set_a(cpu.a() ^ 0xFF));
     0x07, 1,  4, RLC_A => cpu.rotate_left_carry::<A>();
     0x17, 1,  4, RL_A => cpu.rotate_left_a();
-    0x0F, 1,  4, RRC_A =>cpu.rotate_right_carry_a();
+    0x0F, 1,  4, RRC_A =>cpu.rotate_right_carry::<A>();
     0x1F, 1,  4, RR_A => cpu.rotate_right_a();
     0x37, 1,  4, SCF => cpu.set_carry_flag();
     0x3F, 1,  4, CCF => cpu.complement_carry_flag();
