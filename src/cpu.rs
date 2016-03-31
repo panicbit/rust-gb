@@ -395,13 +395,13 @@ impl Cpu {
     }
 
     pub fn shift_right_logical_b(&mut self) {
-        let msb = self.b.0 & 1;
+        let lsb = self.b.0 & 1;
         self.b >>= 1;
 
         unborrow!(self.set_flag_z(self.l() == 0));
         self.set_flag_n(false);
         self.set_flag_h(false);
-        self.set_flag_c(msb == 1);
+        self.set_flag_c(lsb == 1);
     }
 
     pub fn rotate_right<R: Reg8>(&mut self) {
