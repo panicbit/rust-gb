@@ -324,7 +324,7 @@ instructions! {
     0x07, 1,  4, RLC_A => cpu.rotate_left_carry::<A>();
     0x17, 1,  4, RL_A => cpu.rotate_left::<A>();
     0x0F, 1,  4, RRC_A =>cpu.rotate_right_carry::<A>();
-    0x1F, 1,  4, RR_A => cpu.rotate_right_a();
+    0x1F, 1,  4, RR_A => cpu.rotate_right::<A>();
     0x37, 1,  4, SCF => cpu.set_carry_flag();
     0x3F, 1,  4, CCF => cpu.complement_carry_flag();
     0xCB, instr.len() + 1, instr.cycles(), Extended(instr: ExtendedInstruction) => instr.execute(cpu, mem);
@@ -356,9 +356,13 @@ instructions! {
     0x0C, 1,  8, RRC_H => cpu.rotate_right_carry::<H>();
     0x0D, 1,  8, RRC_L => cpu.rotate_right_carry::<L>();
     0x38, 1,  8, SRL_B => cpu.shift_right_logical_b();
-    0x19, 1,  8, RR_C => cpu.rotate_right_c();
-    0x1A, 1,  8, RR_D => cpu.rotate_right_d();
-    0x1B, 1,  8, RR_E => cpu.rotate_right_e();
+    0x1F, 1,  8, RR_A => cpu.rotate_right::<A>();
+    0x18, 1,  8, RR_B => cpu.rotate_right::<B>();
+    0x19, 1,  8, RR_C => cpu.rotate_right::<C>();
+    0x1A, 1,  8, RR_D => cpu.rotate_right::<D>();
+    0x1B, 1,  8, RR_E => cpu.rotate_right::<E>();
+    0x1C, 1,  8, RR_H => cpu.rotate_right::<H>();
+    0x1D, 1,  8, RR_L => cpu.rotate_right::<L>();
     0x37, 1,  8, SWAP_A => cpu.swap_nibbles_a();
     0x30, 1,  8, SWAP_B => cpu.swap_nibbles_b();
     0x31, 1,  8, SWAP_C => cpu.swap_nibbles_c();

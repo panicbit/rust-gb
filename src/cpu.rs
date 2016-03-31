@@ -404,46 +404,17 @@ impl Cpu {
         self.set_flag_c(msb == 1);
     }
 
-    pub fn rotate_right_a(&mut self) {
-        let new_carry = self.a.0 & 1;
-        self.a >>= 1;
-        self.a.0 |= (self.flag_c() as u8) << 7;
+    pub fn rotate_right<R: Reg8>(&mut self) {
+        let mut r = self.get::<R>();
+        let new_carry = r.0 & 1;
+        r.0 >>= 1;
+        r.0 |= (self.flag_c() as u8) << 7;
+        self.set::<R>(r);
 
+        // update flags
+        let r = r.0;
         unborrow!(self.rotate_affect_flags(
-            self.a.0 == 0, // Z
-            new_carry == 1 // C
-        ));
-    }
-
-    pub fn rotate_right_c(&mut self) {
-        let new_carry = self.c.0 & 1;
-        self.c >>= 1;
-        self.c.0 |= (self.flag_c() as u8) << 7;
-
-        unborrow!(self.rotate_affect_flags(
-            self.c.0 == 0, // Z
-            new_carry == 1 // C
-        ));
-    }
-
-    pub fn rotate_right_d(&mut self) {
-        let new_carry = self.d.0 & 1;
-        self.d >>= 1;
-        self.d.0 |= (self.flag_c() as u8) << 7;
-
-        unborrow!(self.rotate_affect_flags(
-            self.d.0 == 0, // Z
-            new_carry == 1 // C
-        ));
-    }
-
-    pub fn rotate_right_e(&mut self) {
-        let new_carry = self.e.0 & 1;
-        self.e >>= 1;
-        self.e.0 |= (self.flag_c() as u8) << 7;
-
-        unborrow!(self.rotate_affect_flags(
-            self.e.0 == 0, // Z
+            r == 0, // Z
             new_carry == 1 // C
         ));
     }
