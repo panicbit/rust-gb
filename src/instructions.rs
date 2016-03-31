@@ -355,6 +355,13 @@ instructions! {
     0x0B, 1,  8, RRC_E => cpu.rotate_right_carry::<E>();
     0x0C, 1,  8, RRC_H => cpu.rotate_right_carry::<H>();
     0x0D, 1,  8, RRC_L => cpu.rotate_right_carry::<L>();
+    0x27, 1,  8, SLA_A => cpu.shift_left_arithmetic::<A>();
+    0x20, 1,  8, SLA_B => cpu.shift_left_arithmetic::<B>();
+    0x21, 1,  8, SLA_C => cpu.shift_left_arithmetic::<C>();
+    0x22, 1,  8, SLA_D => cpu.shift_left_arithmetic::<D>();
+    0x23, 1,  8, SLA_E => cpu.shift_left_arithmetic::<E>();
+    0x24, 1,  8, SLA_H => cpu.shift_left_arithmetic::<H>();
+    0x25, 1,  8, SLA_L => cpu.shift_left_arithmetic::<L>();
     0x38, 1,  8, SRL_B => cpu.shift_right_logical_b();
     0x1F, 1,  8, RR_A => cpu.rotate_right::<A>();
     0x18, 1,  8, RR_B => cpu.rotate_right::<B>();

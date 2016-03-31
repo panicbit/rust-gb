@@ -394,6 +394,21 @@ impl Cpu {
         self.set_flag_c(false);
     }
 
+    // This is actually just a SLL (into carry)
+    pub fn shift_left_arithmetic<R: Reg8>(&mut self) {
+        let mut r = self.get::<R>().0;
+        let sign = r >> 7;
+        r <<= 1;
+        R::set(self, r);
+
+        // update flags
+        unborrow!(self.set_flag_z(r == 0));
+        self.set_flag_n(false);
+        self.set_flag_h(false);
+        self.set_flag_c(sign == 1);
+    }
+
+
     pub fn shift_right_logical_b(&mut self) {
         let lsb = self.b.0 & 1;
         self.b >>= 1;
